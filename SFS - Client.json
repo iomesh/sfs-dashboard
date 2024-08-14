@@ -254,7 +254,7 @@
               }
             ]
           },
-          "unit": "ns"
+          "unit": "ms"
         },
         "overrides": []
       },
@@ -284,7 +284,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "rate(request_latency_ns_sum{instance=~\"$node\",nsid=\"$nsid\"}[1m])/rate(request_latency_ns_count[1m])",
+          "expr": "rate(request_latency_ms_sum{instance=~\"$node\",nsid=\"$nsid\"}[1m])/rate(request_latency_ms_count[1m])",
           "instant": false,
           "legendFormat": "{{method}}",
           "range": true,
@@ -582,7 +582,7 @@
               }
             ]
           },
-          "unit": "ns"
+          "unit": "ms"
         },
         "overrides": []
       },
@@ -612,7 +612,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.01, rate(request_latency_ns_bucket{instance=~\"$node\",nsid=\"$nsid\"}[1m]))",
+          "expr": "histogram_quantile(0.01, rate(request_latency_ms_bucket{instance=~\"$node\",nsid=\"$nsid\"}[1m]))",
           "legendFormat": "{{method}}",
           "range": true,
           "refId": "A"
@@ -673,7 +673,7 @@
               }
             ]
           },
-          "unit": "ns"
+          "unit": "ms"
         },
         "overrides": []
       },
@@ -703,7 +703,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.90, rate(request_latency_ns_bucket{instance=~\"$node\",nsid=\"$nsid\"}[1m]))",
+          "expr": "histogram_quantile(0.90, rate(request_latency_ms_bucket{instance=~\"$node\",nsid=\"$nsid\"}[1m]))",
           "legendFormat": "{{method}}",
           "range": true,
           "refId": "A"
@@ -763,7 +763,7 @@
               }
             ]
           },
-          "unit": "ns"
+          "unit": "ms"
         },
         "overrides": []
       },
@@ -793,7 +793,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.50, rate(request_latency_ns_bucket{instance=~\"$node\",nsid=\"$nsid\"}[1m]))",
+          "expr": "histogram_quantile(0.50, rate(request_latency_ms_bucket{instance=~\"$node\",nsid=\"$nsid\"}[1m]))",
           "legendFormat": "{{method}}",
           "range": true,
           "refId": "A"
@@ -853,7 +853,7 @@
               }
             ]
           },
-          "unit": "ns"
+          "unit": "ms"
         },
         "overrides": []
       },
@@ -883,7 +883,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, rate(request_latency_ns_bucket{instance=~\"$node\",nsid=\"$nsid\"}[1m]))",
+          "expr": "histogram_quantile(0.95, rate(request_latency_ms_bucket{instance=~\"$node\",nsid=\"$nsid\"}[1m]))",
           "legendFormat": "{{method}}",
           "range": true,
           "refId": "A"
@@ -956,7 +956,7 @@
               }
             ]
           },
-          "unit": "ns"
+          "unit": "ms"
         },
         "overrides": []
       },
@@ -986,7 +986,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.01, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
+          "expr": "histogram_quantile(0.01, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
           "legendFormat": "1%",
           "range": true,
           "refId": "A"
@@ -997,7 +997,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.1, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
+          "expr": "histogram_quantile(0.1, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
           "hide": false,
           "legendFormat": "10%",
           "range": true,
@@ -1009,7 +1009,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.2, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
+          "expr": "histogram_quantile(0.2, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
           "hide": false,
           "legendFormat": "20%",
           "range": true,
@@ -1021,7 +1021,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.3, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
+          "expr": "histogram_quantile(0.3, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
           "hide": false,
           "legendFormat": "30%",
           "range": true,
@@ -1033,7 +1033,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.4, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
+          "expr": "histogram_quantile(0.4, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
           "hide": false,
           "legendFormat": "40%",
           "range": true,
@@ -1045,7 +1045,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.5, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
+          "expr": "histogram_quantile(0.5, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
           "hide": false,
           "legendFormat": "50%",
           "range": true,
@@ -1057,7 +1057,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.6, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
+          "expr": "histogram_quantile(0.6, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
           "hide": false,
           "legendFormat": "60%",
           "range": true,
@@ -1069,7 +1069,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.7, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
+          "expr": "histogram_quantile(0.7, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
           "hide": false,
           "legendFormat": "70%",
           "range": true,
@@ -1081,7 +1081,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.8, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
+          "expr": "histogram_quantile(0.8, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
           "hide": false,
           "legendFormat": "80%",
           "range": true,
@@ -1093,7 +1093,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.9, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
+          "expr": "histogram_quantile(0.9, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
           "hide": false,
           "legendFormat": "90%",
           "range": true,
@@ -1105,7 +1105,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
+          "expr": "histogram_quantile(0.95, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
           "hide": false,
           "legendFormat": "95%",
           "range": true,
@@ -1117,7 +1117,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
+          "expr": "histogram_quantile(0.99, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
           "hide": false,
           "legendFormat": "99%",
           "range": true,
@@ -1178,7 +1178,7 @@
               }
             ]
           },
-          "unit": "ns"
+          "unit": "ms"
         },
         "overrides": []
       },
@@ -1208,7 +1208,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.01, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
+          "expr": "histogram_quantile(0.01, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
           "legendFormat": "1%",
           "range": true,
           "refId": "A"
@@ -1219,7 +1219,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.1, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
+          "expr": "histogram_quantile(0.1, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
           "hide": false,
           "legendFormat": "10%",
           "range": true,
@@ -1231,7 +1231,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.2, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
+          "expr": "histogram_quantile(0.2, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
           "hide": false,
           "legendFormat": "20%",
           "range": true,
@@ -1243,7 +1243,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.3, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
+          "expr": "histogram_quantile(0.3, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
           "hide": false,
           "legendFormat": "30%",
           "range": true,
@@ -1255,7 +1255,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.4, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
+          "expr": "histogram_quantile(0.4, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
           "hide": false,
           "legendFormat": "40%",
           "range": true,
@@ -1267,7 +1267,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.5, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
+          "expr": "histogram_quantile(0.5, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
           "hide": false,
           "legendFormat": "50%",
           "range": true,
@@ -1279,7 +1279,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.6, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
+          "expr": "histogram_quantile(0.6, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
           "hide": false,
           "legendFormat": "60%",
           "range": true,
@@ -1291,7 +1291,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.7, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
+          "expr": "histogram_quantile(0.7, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
           "hide": false,
           "legendFormat": "70%",
           "range": true,
@@ -1303,7 +1303,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.8, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
+          "expr": "histogram_quantile(0.8, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
           "hide": false,
           "legendFormat": "80%",
           "range": true,
@@ -1315,7 +1315,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.9, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
+          "expr": "histogram_quantile(0.9, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
           "hide": false,
           "legendFormat": "90%",
           "range": true,
@@ -1327,7 +1327,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
+          "expr": "histogram_quantile(0.95, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
           "hide": false,
           "legendFormat": "95%",
           "range": true,
@@ -1339,7 +1339,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
+          "expr": "histogram_quantile(0.99, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
           "hide": false,
           "legendFormat": "99%",
           "range": true,
@@ -1400,7 +1400,7 @@
               }
             ]
           },
-          "unit": "ns"
+          "unit": "ms"
         },
         "overrides": []
       },
@@ -1430,7 +1430,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.01, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
+          "expr": "histogram_quantile(0.01, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
           "legendFormat": "1%",
           "range": true,
           "refId": "A"
@@ -1441,7 +1441,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.1, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
+          "expr": "histogram_quantile(0.1, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
           "hide": false,
           "legendFormat": "10%",
           "range": true,
@@ -1453,7 +1453,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.2, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
+          "expr": "histogram_quantile(0.2, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
           "hide": false,
           "legendFormat": "20%",
           "range": true,
@@ -1465,7 +1465,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.3, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
+          "expr": "histogram_quantile(0.3, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
           "hide": false,
           "legendFormat": "30%",
           "range": true,
@@ -1477,7 +1477,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.4, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
+          "expr": "histogram_quantile(0.4, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
           "hide": false,
           "legendFormat": "40%",
           "range": true,
@@ -1489,7 +1489,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.5, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
+          "expr": "histogram_quantile(0.5, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
           "hide": false,
           "legendFormat": "50%",
           "range": true,
@@ -1501,7 +1501,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.6, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
+          "expr": "histogram_quantile(0.6, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
           "hide": false,
           "legendFormat": "60%",
           "range": true,
@@ -1513,7 +1513,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.7, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
+          "expr": "histogram_quantile(0.7, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
           "hide": false,
           "legendFormat": "70%",
           "range": true,
@@ -1525,7 +1525,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.8, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
+          "expr": "histogram_quantile(0.8, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
           "hide": false,
           "legendFormat": "80%",
           "range": true,
@@ -1537,7 +1537,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.9, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
+          "expr": "histogram_quantile(0.9, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
           "hide": false,
           "legendFormat": "90%",
           "range": true,
@@ -1549,7 +1549,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
+          "expr": "histogram_quantile(0.95, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
           "hide": false,
           "legendFormat": "95%",
           "range": true,
@@ -1561,7 +1561,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
+          "expr": "histogram_quantile(0.99, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
           "hide": false,
           "legendFormat": "99%",
           "range": true,
@@ -1622,7 +1622,7 @@
               }
             ]
           },
-          "unit": "ns"
+          "unit": "ms"
         },
         "overrides": []
       },
@@ -1652,7 +1652,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.01, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
+          "expr": "histogram_quantile(0.01, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
           "legendFormat": "1%",
           "range": true,
           "refId": "A"
@@ -1663,7 +1663,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.1, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
+          "expr": "histogram_quantile(0.1, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
           "hide": false,
           "legendFormat": "10%",
           "range": true,
@@ -1675,7 +1675,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.2, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
+          "expr": "histogram_quantile(0.2, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
           "hide": false,
           "legendFormat": "20%",
           "range": true,
@@ -1687,7 +1687,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.3, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
+          "expr": "histogram_quantile(0.3, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
           "hide": false,
           "legendFormat": "30%",
           "range": true,
@@ -1699,7 +1699,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.4, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
+          "expr": "histogram_quantile(0.4, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
           "hide": false,
           "legendFormat": "40%",
           "range": true,
@@ -1711,7 +1711,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.5, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
+          "expr": "histogram_quantile(0.5, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
           "hide": false,
           "legendFormat": "50%",
           "range": true,
@@ -1723,7 +1723,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.6, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
+          "expr": "histogram_quantile(0.6, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
           "hide": false,
           "legendFormat": "60%",
           "range": true,
@@ -1735,7 +1735,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.7, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
+          "expr": "histogram_quantile(0.7, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
           "hide": false,
           "legendFormat": "70%",
           "range": true,
@@ -1747,7 +1747,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.8, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
+          "expr": "histogram_quantile(0.8, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
           "hide": false,
           "legendFormat": "80%",
           "range": true,
@@ -1759,7 +1759,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.9, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
+          "expr": "histogram_quantile(0.9, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
           "hide": false,
           "legendFormat": "90%",
           "range": true,
@@ -1771,7 +1771,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
+          "expr": "histogram_quantile(0.95, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
           "hide": false,
           "legendFormat": "95%",
           "range": true,
@@ -1783,7 +1783,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
+          "expr": "histogram_quantile(0.99, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
           "hide": false,
           "legendFormat": "99%",
           "range": true,
@@ -1845,7 +1845,7 @@
               }
             ]
           },
-          "unit": "ns"
+          "unit": "ms"
         },
         "overrides": []
       },
@@ -1875,7 +1875,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.01, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
+          "expr": "histogram_quantile(0.01, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
           "legendFormat": "1%",
           "range": true,
           "refId": "A"
@@ -1886,7 +1886,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.1, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
+          "expr": "histogram_quantile(0.1, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
           "hide": false,
           "legendFormat": "10%",
           "range": true,
@@ -1898,7 +1898,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.2, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
+          "expr": "histogram_quantile(0.2, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
           "hide": false,
           "legendFormat": "20%",
           "range": true,
@@ -1910,7 +1910,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.3, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
+          "expr": "histogram_quantile(0.3, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
           "hide": false,
           "legendFormat": "30%",
           "range": true,
@@ -1922,7 +1922,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.4, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
+          "expr": "histogram_quantile(0.4, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
           "hide": false,
           "legendFormat": "40%",
           "range": true,
@@ -1934,7 +1934,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.5, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
+          "expr": "histogram_quantile(0.5, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
           "hide": false,
           "legendFormat": "50%",
           "range": true,
@@ -1946,7 +1946,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.6, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
+          "expr": "histogram_quantile(0.6, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
           "hide": false,
           "legendFormat": "60%",
           "range": true,
@@ -1958,7 +1958,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.7, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
+          "expr": "histogram_quantile(0.7, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
           "hide": false,
           "legendFormat": "70%",
           "range": true,
@@ -1970,7 +1970,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.8, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
+          "expr": "histogram_quantile(0.8, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
           "hide": false,
           "legendFormat": "80%",
           "range": true,
@@ -1982,7 +1982,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.9, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
+          "expr": "histogram_quantile(0.9, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
           "hide": false,
           "legendFormat": "90%",
           "range": true,
@@ -1994,7 +1994,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
+          "expr": "histogram_quantile(0.95, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
           "hide": false,
           "legendFormat": "95%",
           "range": true,
@@ -2006,7 +2006,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
+          "expr": "histogram_quantile(0.99, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
           "hide": false,
           "legendFormat": "99%",
           "range": true,
@@ -2068,7 +2068,7 @@
               }
             ]
           },
-          "unit": "ns"
+          "unit": "ms"
         },
         "overrides": []
       },
@@ -2098,7 +2098,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.01, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
+          "expr": "histogram_quantile(0.01, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
           "legendFormat": "1%",
           "range": true,
           "refId": "A"
@@ -2109,7 +2109,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.1, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
+          "expr": "histogram_quantile(0.1, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
           "hide": false,
           "legendFormat": "10%",
           "range": true,
@@ -2121,7 +2121,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.2, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
+          "expr": "histogram_quantile(0.2, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
           "hide": false,
           "legendFormat": "20%",
           "range": true,
@@ -2133,7 +2133,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.3, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
+          "expr": "histogram_quantile(0.3, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
           "hide": false,
           "legendFormat": "30%",
           "range": true,
@@ -2145,7 +2145,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.4, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
+          "expr": "histogram_quantile(0.4, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
           "hide": false,
           "legendFormat": "40%",
           "range": true,
@@ -2157,7 +2157,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.5, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
+          "expr": "histogram_quantile(0.5, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
           "hide": false,
           "legendFormat": "50%",
           "range": true,
@@ -2169,7 +2169,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.6, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
+          "expr": "histogram_quantile(0.6, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
           "hide": false,
           "legendFormat": "60%",
           "range": true,
@@ -2181,7 +2181,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.7, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
+          "expr": "histogram_quantile(0.7, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
           "hide": false,
           "legendFormat": "70%",
           "range": true,
@@ -2193,7 +2193,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.8, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
+          "expr": "histogram_quantile(0.8, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
           "hide": false,
           "legendFormat": "80%",
           "range": true,
@@ -2205,7 +2205,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.9, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
+          "expr": "histogram_quantile(0.9, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
           "hide": false,
           "legendFormat": "90%",
           "range": true,
@@ -2217,7 +2217,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
+          "expr": "histogram_quantile(0.95, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
           "hide": false,
           "legendFormat": "95%",
           "range": true,
@@ -2229,7 +2229,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
+          "expr": "histogram_quantile(0.99, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
           "hide": false,
           "legendFormat": "99%",
           "range": true,
@@ -2291,7 +2291,7 @@
               }
             ]
           },
-          "unit": "ns"
+          "unit": "ms"
         },
         "overrides": []
       },
@@ -2321,7 +2321,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.01, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
+          "expr": "histogram_quantile(0.01, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
           "legendFormat": "1%",
           "range": true,
           "refId": "A"
@@ -2332,7 +2332,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.1, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
+          "expr": "histogram_quantile(0.1, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
           "hide": false,
           "legendFormat": "10%",
           "range": true,
@@ -2344,7 +2344,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.2, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
+          "expr": "histogram_quantile(0.2, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
           "hide": false,
           "legendFormat": "20%",
           "range": true,
@@ -2356,7 +2356,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.3, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
+          "expr": "histogram_quantile(0.3, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
           "hide": false,
           "legendFormat": "30%",
           "range": true,
@@ -2368,7 +2368,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.4, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
+          "expr": "histogram_quantile(0.4, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
           "hide": false,
           "legendFormat": "40%",
           "range": true,
@@ -2380,7 +2380,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.5, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
+          "expr": "histogram_quantile(0.5, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
           "hide": false,
           "legendFormat": "50%",
           "range": true,
@@ -2392,7 +2392,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.6, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
+          "expr": "histogram_quantile(0.6, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
           "hide": false,
           "legendFormat": "60%",
           "range": true,
@@ -2404,7 +2404,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.7, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
+          "expr": "histogram_quantile(0.7, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
           "hide": false,
           "legendFormat": "70%",
           "range": true,
@@ -2416,7 +2416,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.8, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
+          "expr": "histogram_quantile(0.8, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
           "hide": false,
           "legendFormat": "80%",
           "range": true,
@@ -2428,7 +2428,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.9, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
+          "expr": "histogram_quantile(0.9, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
           "hide": false,
           "legendFormat": "90%",
           "range": true,
@@ -2440,7 +2440,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
+          "expr": "histogram_quantile(0.95, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
           "hide": false,
           "legendFormat": "95%",
           "range": true,
@@ -2452,7 +2452,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
+          "expr": "histogram_quantile(0.99, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
           "hide": false,
           "legendFormat": "99%",
           "range": true,
@@ -2514,7 +2514,7 @@
               }
             ]
           },
-          "unit": "ns"
+          "unit": "ms"
         },
         "overrides": []
       },
@@ -2544,7 +2544,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.01, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
+          "expr": "histogram_quantile(0.01, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
           "legendFormat": "1%",
           "range": true,
           "refId": "A"
@@ -2555,7 +2555,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.1, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
+          "expr": "histogram_quantile(0.1, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
           "hide": false,
           "legendFormat": "10%",
           "range": true,
@@ -2567,7 +2567,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.2, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
+          "expr": "histogram_quantile(0.2, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
           "hide": false,
           "legendFormat": "20%",
           "range": true,
@@ -2579,7 +2579,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.3, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
+          "expr": "histogram_quantile(0.3, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
           "hide": false,
           "legendFormat": "30%",
           "range": true,
@@ -2591,7 +2591,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.4, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
+          "expr": "histogram_quantile(0.4, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
           "hide": false,
           "legendFormat": "40%",
           "range": true,
@@ -2603,7 +2603,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.5, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
+          "expr": "histogram_quantile(0.5, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
           "hide": false,
           "legendFormat": "50%",
           "range": true,
@@ -2615,7 +2615,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.6, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
+          "expr": "histogram_quantile(0.6, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
           "hide": false,
           "legendFormat": "60%",
           "range": true,
@@ -2627,7 +2627,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.7, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
+          "expr": "histogram_quantile(0.7, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
           "hide": false,
           "legendFormat": "70%",
           "range": true,
@@ -2639,7 +2639,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.8, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
+          "expr": "histogram_quantile(0.8, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
           "hide": false,
           "legendFormat": "80%",
           "range": true,
@@ -2651,7 +2651,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.9, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
+          "expr": "histogram_quantile(0.9, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
           "hide": false,
           "legendFormat": "90%",
           "range": true,
@@ -2663,7 +2663,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
+          "expr": "histogram_quantile(0.95, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
           "hide": false,
           "legendFormat": "95%",
           "range": true,
@@ -2675,7 +2675,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
+          "expr": "histogram_quantile(0.99, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
           "hide": false,
           "legendFormat": "99%",
           "range": true,
@@ -2737,7 +2737,7 @@
               }
             ]
           },
-          "unit": "ns"
+          "unit": "ms"
         },
         "overrides": []
       },
@@ -2767,7 +2767,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.01, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
+          "expr": "histogram_quantile(0.01, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
           "legendFormat": "1%",
           "range": true,
           "refId": "A"
@@ -2778,7 +2778,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.1, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
+          "expr": "histogram_quantile(0.1, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
           "hide": false,
           "legendFormat": "10%",
           "range": true,
@@ -2790,7 +2790,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.2, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
+          "expr": "histogram_quantile(0.2, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
           "hide": false,
           "legendFormat": "20%",
           "range": true,
@@ -2802,7 +2802,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.3, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
+          "expr": "histogram_quantile(0.3, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
           "hide": false,
           "legendFormat": "30%",
           "range": true,
@@ -2814,7 +2814,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.4, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
+          "expr": "histogram_quantile(0.4, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
           "hide": false,
           "legendFormat": "40%",
           "range": true,
@@ -2826,7 +2826,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.5, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
+          "expr": "histogram_quantile(0.5, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
           "hide": false,
           "legendFormat": "50%",
           "range": true,
@@ -2838,7 +2838,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.6, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
+          "expr": "histogram_quantile(0.6, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
           "hide": false,
           "legendFormat": "60%",
           "range": true,
@@ -2850,7 +2850,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.7, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
+          "expr": "histogram_quantile(0.7, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
           "hide": false,
           "legendFormat": "70%",
           "range": true,
@@ -2862,7 +2862,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.8, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
+          "expr": "histogram_quantile(0.8, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
           "hide": false,
           "legendFormat": "80%",
           "range": true,
@@ -2874,7 +2874,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.9, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
+          "expr": "histogram_quantile(0.9, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
           "hide": false,
           "legendFormat": "90%",
           "range": true,
@@ -2886,7 +2886,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
+          "expr": "histogram_quantile(0.95, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
           "hide": false,
           "legendFormat": "95%",
           "range": true,
@@ -2898,7 +2898,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
+          "expr": "histogram_quantile(0.99, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
           "hide": false,
           "legendFormat": "99%",
           "range": true,
@@ -2960,7 +2960,7 @@
               }
             ]
           },
-          "unit": "ns"
+          "unit": "ms"
         },
         "overrides": []
       },
@@ -2990,7 +2990,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.01, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
+          "expr": "histogram_quantile(0.01, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
           "legendFormat": "1%",
           "range": true,
           "refId": "A"
@@ -3001,7 +3001,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.1, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
+          "expr": "histogram_quantile(0.1, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
           "hide": false,
           "legendFormat": "10%",
           "range": true,
@@ -3013,7 +3013,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.2, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
+          "expr": "histogram_quantile(0.2, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
           "hide": false,
           "legendFormat": "20%",
           "range": true,
@@ -3025,7 +3025,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.3, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
+          "expr": "histogram_quantile(0.3, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
           "hide": false,
           "legendFormat": "30%",
           "range": true,
@@ -3037,7 +3037,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.4, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
+          "expr": "histogram_quantile(0.4, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
           "hide": false,
           "legendFormat": "40%",
           "range": true,
@@ -3049,7 +3049,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.5, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
+          "expr": "histogram_quantile(0.5, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
           "hide": false,
           "legendFormat": "50%",
           "range": true,
@@ -3061,7 +3061,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.6, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
+          "expr": "histogram_quantile(0.6, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
           "hide": false,
           "legendFormat": "60%",
           "range": true,
@@ -3073,7 +3073,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.7, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
+          "expr": "histogram_quantile(0.7, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
           "hide": false,
           "legendFormat": "70%",
           "range": true,
@@ -3085,7 +3085,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.8, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
+          "expr": "histogram_quantile(0.8, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
           "hide": false,
           "legendFormat": "80%",
           "range": true,
@@ -3097,7 +3097,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.9, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
+          "expr": "histogram_quantile(0.9, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
           "hide": false,
           "legendFormat": "90%",
           "range": true,
@@ -3109,7 +3109,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
+          "expr": "histogram_quantile(0.95, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
           "hide": false,
           "legendFormat": "95%",
           "range": true,
@@ -3121,7 +3121,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
+          "expr": "histogram_quantile(0.99, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
           "hide": false,
           "legendFormat": "99%",
           "range": true,
@@ -3183,7 +3183,7 @@
               }
             ]
           },
-          "unit": "ns"
+          "unit": "ms"
         },
         "overrides": []
       },
@@ -3213,7 +3213,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.01, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "histogram_quantile(0.01, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
           "legendFormat": "1%",
           "range": true,
           "refId": "A"
@@ -3224,7 +3224,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.1, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "histogram_quantile(0.1, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
           "hide": false,
           "legendFormat": "10%",
           "range": true,
@@ -3236,7 +3236,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.2, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "histogram_quantile(0.2, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
           "hide": false,
           "legendFormat": "20%",
           "range": true,
@@ -3248,7 +3248,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.3, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "histogram_quantile(0.3, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
           "hide": false,
           "legendFormat": "30%",
           "range": true,
@@ -3260,7 +3260,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.4, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "histogram_quantile(0.4, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
           "hide": false,
           "legendFormat": "40%",
           "range": true,
@@ -3272,7 +3272,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.5, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "histogram_quantile(0.5, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
           "hide": false,
           "legendFormat": "50%",
           "range": true,
@@ -3284,7 +3284,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.6, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "histogram_quantile(0.6, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
           "hide": false,
           "legendFormat": "60%",
           "range": true,
@@ -3296,7 +3296,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.7, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "histogram_quantile(0.7, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
           "hide": false,
           "legendFormat": "70%",
           "range": true,
@@ -3308,7 +3308,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.8, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "histogram_quantile(0.8, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
           "hide": false,
           "legendFormat": "80%",
           "range": true,
@@ -3320,7 +3320,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.9, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "histogram_quantile(0.9, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
           "hide": false,
           "legendFormat": "90%",
           "range": true,
@@ -3332,7 +3332,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "histogram_quantile(0.95, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
           "hide": false,
           "legendFormat": "95%",
           "range": true,
@@ -3344,7 +3344,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "histogram_quantile(0.99, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
           "hide": false,
           "legendFormat": "99%",
           "range": true,
@@ -3406,7 +3406,7 @@
               }
             ]
           },
-          "unit": "ns"
+          "unit": "ms"
         },
         "overrides": []
       },
@@ -3436,7 +3436,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.01, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "histogram_quantile(0.01, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
           "legendFormat": "1%",
           "range": true,
           "refId": "A"
@@ -3447,7 +3447,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.1, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "histogram_quantile(0.1, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
           "hide": false,
           "legendFormat": "10%",
           "range": true,
@@ -3459,7 +3459,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.2, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "histogram_quantile(0.2, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
           "hide": false,
           "legendFormat": "20%",
           "range": true,
@@ -3471,7 +3471,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.3, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "histogram_quantile(0.3, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
           "hide": false,
           "legendFormat": "30%",
           "range": true,
@@ -3483,7 +3483,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.4, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "histogram_quantile(0.4, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
           "hide": false,
           "legendFormat": "40%",
           "range": true,
@@ -3495,7 +3495,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.5, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "histogram_quantile(0.5, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
           "hide": false,
           "legendFormat": "50%",
           "range": true,
@@ -3507,7 +3507,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.6, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "histogram_quantile(0.6, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
           "hide": false,
           "legendFormat": "60%",
           "range": true,
@@ -3519,7 +3519,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.7, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "histogram_quantile(0.7, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
           "hide": false,
           "legendFormat": "70%",
           "range": true,
@@ -3531,7 +3531,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.8, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "histogram_quantile(0.8, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
           "hide": false,
           "legendFormat": "80%",
           "range": true,
@@ -3543,7 +3543,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.9, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "histogram_quantile(0.9, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
           "hide": false,
           "legendFormat": "90%",
           "range": true,
@@ -3555,7 +3555,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "histogram_quantile(0.95, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
           "hide": false,
           "legendFormat": "95%",
           "range": true,
@@ -3567,7 +3567,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, rate(request_latency_ns_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "histogram_quantile(0.99, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
           "hide": false,
           "legendFormat": "99%",
           "range": true,
@@ -3821,7 +3821,7 @@
           "type": "prometheus",
           "uid": "${DS_VICTORIAMETRICS}"
         },
-        "definition": "label_values(request_latency_ns_count{cluster=\"$cluster\"},instance)",
+        "definition": "label_values(request_latency_ms_count{cluster=\"$cluster\"},instance)",
         "hide": 0,
         "includeAll": true,
         "label": "Host",
@@ -3829,7 +3829,7 @@
         "name": "node",
         "options": [],
         "query": {
-          "query": "label_values(request_latency_ns_count{cluster=\"$cluster\"},instance)",
+          "query": "label_values(request_latency_ms_count{cluster=\"$cluster\"},instance)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
@@ -3844,7 +3844,7 @@
           "type": "prometheus",
           "uid": "${DS_VICTORIAMETRICS}"
         },
-        "definition": "label_values(request_latency_ns_count{cluster=\"$cluster\"},nsid)",
+        "definition": "label_values(request_latency_ms_count{cluster=\"$cluster\"},nsid)",
         "hide": 0,
         "includeAll": false,
         "label": "Namespace ID",
@@ -3852,7 +3852,7 @@
         "name": "nsid",
         "options": [],
         "query": {
-          "query": "label_values(request_latency_ns_count{cluster=\"$cluster\"},nsid)",
+          "query": "label_values(request_latency_ms_count{cluster=\"$cluster\"},nsid)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
@@ -3867,7 +3867,7 @@
           "type": "prometheus",
           "uid": "${DS_VICTORIAMETRICS}"
         },
-        "definition": "label_values(request_latency_ns_count,method)",
+        "definition": "label_values(request_latency_ms_count,method)",
         "hide": 0,
         "includeAll": true,
         "label": "Method",
@@ -3875,7 +3875,7 @@
         "name": "method",
         "options": [],
         "query": {
-          "query": "label_values(request_latency_ns_count,method)",
+          "query": "label_values(request_latency_ms_count,method)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
@@ -3890,7 +3890,7 @@
           "type": "prometheus",
           "uid": "${DS_VICTORIAMETRICS}"
         },
-        "definition": "label_values(request_latency_ns_count,cluster)",
+        "definition": "label_values(request_latency_ms_count,cluster)",
         "hide": 0,
         "includeAll": false,
         "label": "Cluster",
@@ -3898,7 +3898,7 @@
         "name": "cluster",
         "options": [],
         "query": {
-          "query": "label_values(request_latency_ns_count,cluster)",
+          "query": "label_values(request_latency_ms_count,cluster)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
