@@ -162,7 +162,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "increase(uzfs_request_latency_ns_sum{instance=\"$node\",shard_id=\"$shard_id\"}[1m]) / increase(uzfs_request_latency_ns_count[1m])",
+          "expr": "(increase(uzfs_request_latency_ns_sum{instance=\"$node\",shard_id=\"$shard_id\"}[$__rate_interval]) / increase(uzfs_request_latency_ns_count[$__rate_interval])) or (increase(sfs_uzfs_request_latency_ns_sum{instance=\"$node\",shard_id=\"$shard_id\"}[$__rate_interval]) / increase(sfs_uzfs_request_latency_ns_count[$__rate_interval]))",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
@@ -227,7 +227,7 @@
               }
             ]
           },
-          "unit": "none"
+          "unit": "decbytes"
         },
         "overrides": []
       },
@@ -265,7 +265,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "increase(uzfs_request_size_bytes_sum{instance=\"$node\",shard_id=\"$shard_id\"}[1m]) / increase(uzfs_request_size_bytes_count[1m])",
+          "expr": "(increase(uzfs_request_size_bytes_sum{instance=\"$node\",shard_id=\"$shard_id\"}[$__rate_interval]) / increase(uzfs_request_size_bytes_count[$__rate_interval])) or increase(sfs_uzfs_request_size_bytes_sum{instance=\"$node\",shard_id=\"$shard_id\"}[$__rate_interval]) / increase(sfs_uzfs_request_size_bytes_count[$__rate_interval])",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
@@ -368,7 +368,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "histogram_quantile(1, increase(uzfs_request_latency_ns_bucket{instance=\"$node\",shard_id=\"$shard_id\"}[1m]))",
+          "expr": "histogram_quantile(1, increase(uzfs_request_latency_ns_bucket{instance=\"$node\",shard_id=\"$shard_id\"}[$__rate_interval])) or histogram_quantile(1, increase(sfs_uzfs_request_latency_ns_bucket{instance=\"$node\",shard_id=\"$shard_id\"}[$__rate_interval]))",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
@@ -494,14 +494,14 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "rate(uzfs_request_latency_ns_count{instance=\"$node\",shard_id=\"$shard_id\"}[1m])",
+          "expr": "rate(uzfs_request_latency_ns_count{instance=\"$node\",shard_id=\"$shard_id\"}[$__rate_interval]) or rate(sfs_uzfs_request_latency_ns_count{instance=\"$node\",shard_id=\"$shard_id\"}[$__rate_interval])",
           "instant": false,
           "legendFormat": "{{method}}",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "QPS",
+      "title": "IOPS",
       "type": "timeseries"
     },
     {
@@ -589,8 +589,8 @@
             "type": "prometheus",
             "uid": "${DS_VICTORIAMETRICS}"
           },
-          "editorMode": "builder",
-          "expr": "uzfs_request_concurrency{instance=\"$node\",shard_id=\"$shard_id\"}",
+          "editorMode": "code",
+          "expr": "uzfs_request_concurrency{instance=\"$node\",shard_id=\"$shard_id\"} or sfs_uzfs_request_concurrency{instance=\"$node\",shard_id=\"$shard_id\"}",
           "instant": false,
           "legendFormat": "{{method}}",
           "range": true,
@@ -656,7 +656,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -695,7 +696,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "increase(uzfs_request_latency_ns_sum{method=\"ReadObject\"}[1m]) / increase(uzfs_request_latency_ns_count[1m])",
+          "expr": "(increase(uzfs_request_latency_ns_sum{method=\"ReadObject\"}[$__rate_interval]) / increase(uzfs_request_latency_ns_count[$__rate_interval])) or (increase(sfs_uzfs_request_latency_ns_sum{method=\"ReadObject\"}[$__rate_interval]) / increase(sfs_uzfs_request_latency_ns_count[$__rate_interval]))",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
@@ -751,7 +752,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -789,8 +791,8 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "increase(uzfs_request_latency_ns_sum{method=\"WriteObject\"}[1m]) / increase(uzfs_request_latency_ns_count[1m])",
+          "editorMode": "code",
+          "expr": "(increase(uzfs_request_latency_ns_sum{method=\"WriteObject\"}[$__rate_interval]) / increase(uzfs_request_latency_ns_count[$__rate_interval])) or (increase(sfs_uzfs_request_latency_ns_sum{method=\"WriteObject\"}[$__rate_interval]) / increase(sfs_uzfs_request_latency_ns_count[$__rate_interval]))",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
@@ -846,7 +848,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -884,8 +887,8 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "increase(uzfs_request_latency_ns_sum{method=\"SyncObject\"}[1m]) / increase(uzfs_request_latency_ns_count[1m])",
+          "editorMode": "code",
+          "expr": "(increase(uzfs_request_latency_ns_sum{method=\"SyncObject\"}[$__rate_interval]) / increase(uzfs_request_latency_ns_count[$__rate_interval])) or increase(sfs_uzfs_request_latency_ns_sum{method=\"SyncObject\"}[$__rate_interval]) / increase(sfs_uzfs_request_latency_ns_count[$__rate_interval])",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
@@ -899,7 +902,7 @@
       "type": "timeseries"
     }
   ],
-  "refresh": "",
+  "refresh": "5s",
   "schemaVersion": 36,
   "style": "dark",
   "tags": [],
@@ -911,7 +914,7 @@
           "type": "prometheus",
           "uid": "${DS_VICTORIAMETRICS}"
         },
-        "definition": "label_values(uzfs_request_latency_ns_sum,cluster)",
+        "definition": "label_values({__name__=~\"uzfs_request_latency_ns_sum|sfs_uzfs_request_latency_ns_sum\"}, cluster)",
         "hide": 0,
         "includeAll": false,
         "label": "Cluster",
@@ -919,7 +922,7 @@
         "name": "cluster",
         "options": [],
         "query": {
-          "query": "label_values(uzfs_request_latency_ns_sum,cluster)",
+          "query": "label_values({__name__=~\"uzfs_request_latency_ns_sum|sfs_uzfs_request_latency_ns_sum\"}, cluster)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
@@ -934,7 +937,7 @@
           "type": "prometheus",
           "uid": "${DS_VICTORIAMETRICS}"
         },
-        "definition": "label_values(uzfs_request_latency_ns_count{cluster=\"$cluster\"},instance)",
+        "definition": "label_values({__name__=~\"uzfs_request_latency_ns_count|sfs_uzfs_request_latency_ns_count\", cluster=\"$cluster\"}, instance)",
         "hide": 0,
         "includeAll": false,
         "label": "Host",
@@ -942,7 +945,7 @@
         "name": "node",
         "options": [],
         "query": {
-          "query": "label_values(uzfs_request_latency_ns_count{cluster=\"$cluster\"},instance)",
+          "query": "label_values({__name__=~\"uzfs_request_latency_ns_count|sfs_uzfs_request_latency_ns_count\", cluster=\"$cluster\"}, instance)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
@@ -957,7 +960,7 @@
           "type": "prometheus",
           "uid": "${DS_VICTORIAMETRICS}"
         },
-        "definition": "label_values(uzfs_request_latency_ns_count{instance=\"$node\"},shard_id)",
+        "definition": "label_values({__name__=~\"uzfs_request_latency_ns_count|sfs_uzfs_request_latency_ns_count\", instance=\"$node\"}, shard_id)",
         "hide": 0,
         "includeAll": false,
         "label": "Shard",
@@ -965,7 +968,7 @@
         "name": "shard_id",
         "options": [],
         "query": {
-          "query": "label_values(uzfs_request_latency_ns_count{instance=\"$node\"},shard_id)",
+          "query": "label_values({__name__=~\"uzfs_request_latency_ns_count|sfs_uzfs_request_latency_ns_count\", instance=\"$node\"}, shard_id)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
@@ -977,13 +980,13 @@
     ]
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "SFS - UZFS",
   "uid": "b199b72e-d60b-41e0-a166-3a89a2cb0bc0",
-  "version": 8,
+  "version": 6,
   "weekStart": ""
 }

@@ -139,32 +139,7 @@
           },
           "unit": "none"
         },
-        "overrides": [
-          {
-            "__systemRef": "hideSeriesFrom",
-            "matcher": {
-              "id": "byNames",
-              "options": {
-                "mode": "exclude",
-                "names": [
-                  "READ"
-                ],
-                "prefix": "All except:",
-                "readOnly": true
-              }
-            },
-            "properties": [
-              {
-                "id": "custom.hideFrom",
-                "value": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": true
-                }
-              }
-            ]
-          }
-        ]
+        "overrides": []
       },
       "gridPos": {
         "h": 8,
@@ -192,7 +167,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "rate(request_size_bytes_count{nsid=\"$nsid\", cluster=\"$cluster\", instance=~\"$node\"}[1m])",
+          "expr": "sum without(instance, sfs_hostname) (rate(request_size_bytes_count{nsid=\"$nsid\", cluster=\"$cluster\",job=\"sfs-client\"}[$__rate_interval])) or sum without (instance, sfs_hostname) (rate(sfs_rpc_request_size_bytes_count{nsid=\"$nsid\", cluster=\"$cluster\",job=\"sfs-client\"}[$__rate_interval]))",
           "instant": false,
           "legendFormat": "{{method}}",
           "range": true,
@@ -264,7 +239,7 @@
         "x": 12,
         "y": 1
       },
-      "id": 105,
+      "id": 193,
       "options": {
         "legend": {
           "calcs": [],
@@ -284,7 +259,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "rate(request_latency_ms_sum{instance=~\"$node\",nsid=\"$nsid\"}[1m])/rate(request_latency_ms_count[1m])",
+          "expr": "avg without (instance, sfs_hostname) ((rate(request_latency_ns_sum{cluster=~\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\"}[$__rate_interval])/rate(request_latency_ns_count[$__rate_interval]) / 1000000)) or avg without (instance, sfs_hostname) ((rate(request_latency_ms_sum{cluster=~\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\"}[$__rate_interval])/rate(request_latency_ms_count[$__rate_interval]))) or avg without (instance, sfs_hostname) ((rate(sfs_rpc_response_duration_sum{cluster=~\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\"}[$__rate_interval])/rate(sfs_rpc_response_duration_count[$__rate_interval])))",
           "instant": false,
           "legendFormat": "{{method}}",
           "range": true,
@@ -404,7 +379,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "rate(request_size_bytes_sum{method=\"READ\", nsid=\"$nsid\", instance=~\"$node\"}[$__rate_interval])",
+          "expr": "sum without (instance, sfs_hostname) (rate(request_size_bytes_sum{cluster=\"$cluster\", method=\"READ\", nsid=\"$nsid\",job=\"sfs-client\"}[$__rate_interval])) or sum without (instance, sfs_hostname) (rate(sfs_rpc_request_size_bytes_sum{cluster=\"$cluster\", method=\"READ\", nsid=\"$nsid\",job=\"sfs-client\"}[$__rate_interval]))",
           "legendFormat": "{{method}}",
           "range": true,
           "refId": "A"
@@ -415,7 +390,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "rate(request_size_bytes_sum{method=\"WRITE\", nsid=\"$nsid\", instance=~\"$node\"}[$__rate_interval])",
+          "expr": "sum without (instance, sfs_hostname) (rate(request_size_bytes_sum{cluster=\"$cluster\", method=\"WRITE\", nsid=\"$nsid\",job=\"sfs-client\"}[$__rate_interval])) or sum without (instance, sfs_hostname) (rate(sfs_rpc_request_size_bytes_sum{cluster=\"$cluster\", method=\"WRITE\", nsid=\"$nsid\",job=\"sfs-client\"}[$__rate_interval]))",
           "hide": false,
           "legendFormat": "{{method}}",
           "range": true,
@@ -507,9 +482,9 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(request_concurrency{cluster=\"$cluster\", instance=~\"$node\"}) by (instance)",
+          "expr": "sum(request_concurrency{cluster=\"$cluster\", job=\"sfs-client\"}) or sum(sfs_rpc_inflight_count{cluster=\"$cluster\", job=\"sfs-client\"})",
           "instant": false,
-          "legendFormat": "__auto",
+          "legendFormat": "Inflight",
           "range": true,
           "refId": "A"
         }
@@ -612,7 +587,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.01, rate(request_latency_ms_bucket{instance=~\"$node\",nsid=\"$nsid\"}[1m]))",
+          "expr": "(histogram_quantile(0.01, sum without(instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", job=\"sfs-client\"}[$__rate_interval]))) / 1000000) or histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=~\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\"}[$__rate_interval])))",
           "legendFormat": "{{method}}",
           "range": true,
           "refId": "A"
@@ -675,7 +650,32 @@
           },
           "unit": "ms"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "STATNS"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 8,
@@ -703,7 +703,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.90, rate(request_latency_ms_bucket{instance=~\"$node\",nsid=\"$nsid\"}[1m]))",
+          "expr": "(histogram_quantile(0.90, sum without(instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", job=\"sfs-client\"}[$__rate_interval]))) / 1000000) or histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=~\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\"}[$__rate_interval])))",
           "legendFormat": "{{method}}",
           "range": true,
           "refId": "A"
@@ -765,7 +765,32 @@
           },
           "unit": "ms"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "STATNS"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 8,
@@ -793,7 +818,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.50, rate(request_latency_ms_bucket{instance=~\"$node\",nsid=\"$nsid\"}[1m]))",
+          "expr": "(histogram_quantile(0.50, sum without(instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", job=\"sfs-client\"}[$__rate_interval]))) / 1000000) or histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=~\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\"}[$__rate_interval])))",
           "legendFormat": "{{method}}",
           "range": true,
           "refId": "A"
@@ -883,7 +908,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, rate(request_latency_ms_bucket{instance=~\"$node\",nsid=\"$nsid\"}[1m]))",
+          "expr": "(histogram_quantile(0.95, sum without(instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", job=\"sfs-client\"}[$__rate_interval]))) / 1000000) or histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=~\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\"}[$__rate_interval])))",
           "legendFormat": "{{method}}",
           "range": true,
           "refId": "A"
@@ -986,7 +1011,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.01, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
+          "expr": "(histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval])))",
           "legendFormat": "1%",
           "range": true,
           "refId": "A"
@@ -997,7 +1022,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.1, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
+          "expr": "(histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "10%",
           "range": true,
@@ -1009,7 +1034,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.2, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
+          "expr": "(histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "20%",
           "range": true,
@@ -1021,7 +1046,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.3, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
+          "expr": "(histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "30%",
           "range": true,
@@ -1033,7 +1058,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.4, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
+          "expr": "(histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "40%",
           "range": true,
@@ -1045,7 +1070,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.5, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
+          "expr": "(histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "50%",
           "range": true,
@@ -1057,7 +1082,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.6, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
+          "expr": "(histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "60%",
           "range": true,
@@ -1069,7 +1094,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.7, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
+          "expr": "(histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "70%",
           "range": true,
@@ -1081,7 +1106,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.8, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
+          "expr": "(histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "80%",
           "range": true,
@@ -1093,7 +1118,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.9, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
+          "expr": "(histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "90%",
           "range": true,
@@ -1105,7 +1130,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
+          "expr": "(histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "95%",
           "range": true,
@@ -1117,7 +1142,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"READ\"}[1m]))",
+          "expr": "(histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"READ\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "99%",
           "range": true,
@@ -1208,7 +1233,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.01, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
+          "expr": "(histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval])))",
           "legendFormat": "1%",
           "range": true,
           "refId": "A"
@@ -1219,7 +1244,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.1, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
+          "expr": "(histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "10%",
           "range": true,
@@ -1231,7 +1256,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.2, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
+          "expr": "(histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "20%",
           "range": true,
@@ -1243,7 +1268,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.3, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
+          "expr": "(histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "30%",
           "range": true,
@@ -1255,7 +1280,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.4, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
+          "expr": "(histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "40%",
           "range": true,
@@ -1267,7 +1292,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.5, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
+          "expr": "(histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "50%",
           "range": true,
@@ -1279,7 +1304,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.6, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
+          "expr": "(histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "60%",
           "range": true,
@@ -1291,7 +1316,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.7, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
+          "expr": "(histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "70%",
           "range": true,
@@ -1303,7 +1328,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.8, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
+          "expr": "(histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "80%",
           "range": true,
@@ -1315,7 +1340,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.9, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
+          "expr": "(histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "90%",
           "range": true,
@@ -1327,7 +1352,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
+          "expr": "(histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "95%",
           "range": true,
@@ -1339,7 +1364,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"WRITE\"}[1m]))",
+          "expr": "(histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"WRITE\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "99%",
           "range": true,
@@ -1430,7 +1455,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.01, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
+          "expr": "(histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval])))",
           "legendFormat": "1%",
           "range": true,
           "refId": "A"
@@ -1441,7 +1466,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.1, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
+          "expr": "(histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "10%",
           "range": true,
@@ -1453,7 +1478,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.2, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
+          "expr": "(histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "20%",
           "range": true,
@@ -1465,7 +1490,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.3, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
+          "expr": "(histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "30%",
           "range": true,
@@ -1477,7 +1502,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.4, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
+          "expr": "(histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "40%",
           "range": true,
@@ -1489,7 +1514,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.5, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
+          "expr": "(histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "50%",
           "range": true,
@@ -1501,7 +1526,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.6, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
+          "expr": "(histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "60%",
           "range": true,
@@ -1513,7 +1538,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.7, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
+          "expr": "(histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "70%",
           "range": true,
@@ -1525,7 +1550,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.8, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
+          "expr": "(histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "80%",
           "range": true,
@@ -1537,7 +1562,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.9, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
+          "expr": "(histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "90%",
           "range": true,
@@ -1549,7 +1574,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
+          "expr": "(histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "95%",
           "range": true,
@@ -1561,7 +1586,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"GETATTR\"}[1m]))",
+          "expr": "(histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"GETATTR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "99%",
           "range": true,
@@ -1652,7 +1677,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.01, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
+          "expr": "(histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval])))",
           "legendFormat": "1%",
           "range": true,
           "refId": "A"
@@ -1663,7 +1688,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.1, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
+          "expr": "(histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "10%",
           "range": true,
@@ -1675,7 +1700,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.2, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
+          "expr": "(histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "20%",
           "range": true,
@@ -1687,7 +1712,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.3, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
+          "expr": "(histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "30%",
           "range": true,
@@ -1699,7 +1724,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.4, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
+          "expr": "(histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "40%",
           "range": true,
@@ -1711,7 +1736,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.5, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
+          "expr": "(histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "50%",
           "range": true,
@@ -1723,7 +1748,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.6, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
+          "expr": "(histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "60%",
           "range": true,
@@ -1735,7 +1760,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.7, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
+          "expr": "(histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "70%",
           "range": true,
@@ -1747,7 +1772,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.8, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
+          "expr": "(histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "80%",
           "range": true,
@@ -1759,7 +1784,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.9, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
+          "expr": "(histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "90%",
           "range": true,
@@ -1771,7 +1796,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
+          "expr": "(histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "95%",
           "range": true,
@@ -1783,7 +1808,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"LOOKUP\"}[1m]))",
+          "expr": "(histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"LOOKUP\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "99%",
           "range": true,
@@ -1875,7 +1900,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.01, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
+          "expr": "(histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval])))",
           "legendFormat": "1%",
           "range": true,
           "refId": "A"
@@ -1886,7 +1911,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.1, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
+          "expr": "(histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "10%",
           "range": true,
@@ -1898,7 +1923,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.2, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
+          "expr": "(histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "20%",
           "range": true,
@@ -1910,7 +1935,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.3, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
+          "expr": "(histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "30%",
           "range": true,
@@ -1922,7 +1947,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.4, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
+          "expr": "(histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "40%",
           "range": true,
@@ -1934,7 +1959,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.5, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
+          "expr": "(histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "50%",
           "range": true,
@@ -1946,7 +1971,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.6, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
+          "expr": "(histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "60%",
           "range": true,
@@ -1958,7 +1983,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.7, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
+          "expr": "(histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "70%",
           "range": true,
@@ -1970,7 +1995,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.8, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
+          "expr": "(histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "80%",
           "range": true,
@@ -1982,7 +2007,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.9, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
+          "expr": "(histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "90%",
           "range": true,
@@ -1994,7 +2019,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
+          "expr": "(histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "95%",
           "range": true,
@@ -2006,7 +2031,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"FSYNC\"}[1m]))",
+          "expr": "(histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"FSYNC\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "99%",
           "range": true,
@@ -2098,7 +2123,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.01, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
+          "expr": "(histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval])))",
           "legendFormat": "1%",
           "range": true,
           "refId": "A"
@@ -2109,7 +2134,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.1, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
+          "expr": "(histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "10%",
           "range": true,
@@ -2121,7 +2146,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.2, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
+          "expr": "(histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "20%",
           "range": true,
@@ -2133,7 +2158,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.3, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
+          "expr": "(histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "30%",
           "range": true,
@@ -2145,7 +2170,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.4, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
+          "expr": "(histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "40%",
           "range": true,
@@ -2157,7 +2182,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.5, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
+          "expr": "(histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "50%",
           "range": true,
@@ -2169,7 +2194,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.6, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
+          "expr": "(histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "60%",
           "range": true,
@@ -2181,7 +2206,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.7, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
+          "expr": "(histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "70%",
           "range": true,
@@ -2193,7 +2218,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.8, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
+          "expr": "(histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "80%",
           "range": true,
@@ -2205,7 +2230,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.9, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
+          "expr": "(histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "90%",
           "range": true,
@@ -2217,7 +2242,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
+          "expr": "(histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "95%",
           "range": true,
@@ -2229,7 +2254,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"CREATE\"}[1m]))",
+          "expr": "(histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"CREATE\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "99%",
           "range": true,
@@ -2321,7 +2346,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.01, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
+          "expr": "(histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval])))",
           "legendFormat": "1%",
           "range": true,
           "refId": "A"
@@ -2332,7 +2357,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.1, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
+          "expr": "(histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "10%",
           "range": true,
@@ -2344,7 +2369,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.2, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
+          "expr": "(histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "20%",
           "range": true,
@@ -2356,7 +2381,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.3, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
+          "expr": "(histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "30%",
           "range": true,
@@ -2368,7 +2393,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.4, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
+          "expr": "(histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "40%",
           "range": true,
@@ -2380,7 +2405,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.5, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
+          "expr": "(histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "50%",
           "range": true,
@@ -2392,7 +2417,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.6, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
+          "expr": "(histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "60%",
           "range": true,
@@ -2404,7 +2429,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.7, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
+          "expr": "(histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "70%",
           "range": true,
@@ -2416,7 +2441,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.8, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
+          "expr": "(histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "80%",
           "range": true,
@@ -2428,7 +2453,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.9, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
+          "expr": "(histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "90%",
           "range": true,
@@ -2440,7 +2465,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
+          "expr": "(histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "95%",
           "range": true,
@@ -2452,7 +2477,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"MKDIR\"}[1m]))",
+          "expr": "(histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"MKDIR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "99%",
           "range": true,
@@ -2544,7 +2569,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.01, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
+          "expr": "(histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval])))",
           "legendFormat": "1%",
           "range": true,
           "refId": "A"
@@ -2555,7 +2580,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.1, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
+          "expr": "(histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "10%",
           "range": true,
@@ -2567,7 +2592,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.2, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
+          "expr": "(histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "20%",
           "range": true,
@@ -2579,7 +2604,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.3, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
+          "expr": "(histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "30%",
           "range": true,
@@ -2591,7 +2616,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.4, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
+          "expr": "(histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "40%",
           "range": true,
@@ -2603,7 +2628,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.5, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
+          "expr": "(histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "50%",
           "range": true,
@@ -2615,7 +2640,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.6, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
+          "expr": "(histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "60%",
           "range": true,
@@ -2627,7 +2652,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.7, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
+          "expr": "(histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "70%",
           "range": true,
@@ -2639,7 +2664,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.8, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
+          "expr": "(histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "80%",
           "range": true,
@@ -2651,7 +2676,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.9, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
+          "expr": "(histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "90%",
           "range": true,
@@ -2663,7 +2688,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
+          "expr": "(histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "95%",
           "range": true,
@@ -2675,7 +2700,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"SETATTR\"}[1m]))",
+          "expr": "(histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"SETATTR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "99%",
           "range": true,
@@ -2767,7 +2792,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.01, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
+          "expr": "(histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval])))",
           "legendFormat": "1%",
           "range": true,
           "refId": "A"
@@ -2778,7 +2803,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.1, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
+          "expr": "(histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "10%",
           "range": true,
@@ -2790,7 +2815,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.2, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
+          "expr": "(histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "20%",
           "range": true,
@@ -2802,7 +2827,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.3, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
+          "expr": "(histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "30%",
           "range": true,
@@ -2814,7 +2839,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.4, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
+          "expr": "(histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "40%",
           "range": true,
@@ -2826,7 +2851,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.5, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
+          "expr": "(histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "50%",
           "range": true,
@@ -2838,7 +2863,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.6, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
+          "expr": "(histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "60%",
           "range": true,
@@ -2850,7 +2875,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.7, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
+          "expr": "(histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "70%",
           "range": true,
@@ -2862,7 +2887,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.8, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
+          "expr": "(histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "80%",
           "range": true,
@@ -2874,7 +2899,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.9, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
+          "expr": "(histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "90%",
           "range": true,
@@ -2886,7 +2911,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
+          "expr": "(histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "95%",
           "range": true,
@@ -2898,7 +2923,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RENAME\"}[1m]))",
+          "expr": "(histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RENAME\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "99%",
           "range": true,
@@ -2990,7 +3015,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.01, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
+          "expr": "(histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval])))",
           "legendFormat": "1%",
           "range": true,
           "refId": "A"
@@ -3001,7 +3026,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.1, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
+          "expr": "(histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "10%",
           "range": true,
@@ -3013,7 +3038,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.2, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
+          "expr": "(histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "20%",
           "range": true,
@@ -3025,7 +3050,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.3, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
+          "expr": "(histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "30%",
           "range": true,
@@ -3037,7 +3062,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.4, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
+          "expr": "(histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "40%",
           "range": true,
@@ -3049,7 +3074,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.5, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
+          "expr": "(histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "50%",
           "range": true,
@@ -3061,7 +3086,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.6, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
+          "expr": "(histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "60%",
           "range": true,
@@ -3073,7 +3098,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.7, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
+          "expr": "(histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "70%",
           "range": true,
@@ -3085,7 +3110,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.8, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
+          "expr": "(histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "80%",
           "range": true,
@@ -3097,7 +3122,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.9, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
+          "expr": "(histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "90%",
           "range": true,
@@ -3109,7 +3134,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
+          "expr": "(histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "95%",
           "range": true,
@@ -3121,7 +3146,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"RMDIR\"}[1m]))",
+          "expr": "(histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"RMDIR\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "99%",
           "range": true,
@@ -3213,7 +3238,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.01, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "(histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval])))",
           "legendFormat": "1%",
           "range": true,
           "refId": "A"
@@ -3224,7 +3249,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.1, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "(histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "10%",
           "range": true,
@@ -3236,7 +3261,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.2, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "(histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "20%",
           "range": true,
@@ -3248,7 +3273,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.3, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "(histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "30%",
           "range": true,
@@ -3260,7 +3285,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.4, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "(histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "40%",
           "range": true,
@@ -3272,7 +3297,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.5, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "(histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "50%",
           "range": true,
@@ -3284,7 +3309,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.6, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "(histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "60%",
           "range": true,
@@ -3296,7 +3321,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.7, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "(histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "70%",
           "range": true,
@@ -3308,7 +3333,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.8, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "(histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "80%",
           "range": true,
@@ -3320,7 +3345,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.9, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "(histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "90%",
           "range": true,
@@ -3332,7 +3357,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "(histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "95%",
           "range": true,
@@ -3344,7 +3369,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "(histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"UNLINK\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "99%",
           "range": true,
@@ -3436,7 +3461,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.01, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "(histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.01, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval])))",
           "legendFormat": "1%",
           "range": true,
           "refId": "A"
@@ -3447,7 +3472,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.1, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "(histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.10, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "10%",
           "range": true,
@@ -3459,7 +3484,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.2, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "(histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.20, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "20%",
           "range": true,
@@ -3471,7 +3496,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.3, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "(histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.30, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "30%",
           "range": true,
@@ -3483,7 +3508,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.4, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "(histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.40, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "40%",
           "range": true,
@@ -3495,7 +3520,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.5, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "(histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.50, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "50%",
           "range": true,
@@ -3507,7 +3532,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.6, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "(histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.60, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "60%",
           "range": true,
@@ -3519,7 +3544,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.7, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "(histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.70, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "70%",
           "range": true,
@@ -3531,7 +3556,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.8, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "(histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.80, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "80%",
           "range": true,
@@ -3543,7 +3568,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.9, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "(histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.90, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "90%",
           "range": true,
@@ -3555,7 +3580,7 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "(histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.95, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "95%",
           "range": true,
@@ -3567,14 +3592,14 @@
             "uid": "${DS_VICTORIAMETRICS}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, rate(request_latency_ms_bucket{instance=~\"$node\", nsid=\"$nsid\", method=\"UNLINK\"}[1m]))",
+          "expr": "(histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(request_latency_ns_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval])) / 1000000)) or histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(request_latency_ms_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval]))) or histogram_quantile(0.99, sum without (instance, sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", nsid=\"$nsid\", method=\"STATNS\", job=\"sfs-client\"}[$__rate_interval])))",
           "hide": false,
           "legendFormat": "99%",
           "range": true,
           "refId": "L"
         }
       ],
-      "title": "Unlink latency distribution",
+      "title": "Statns latency distribution",
       "type": "timeseries"
     },
     {
@@ -3709,8 +3734,8 @@
             "type": "prometheus",
             "uid": "${DS_VICTORIAMETRICS}"
           },
-          "editorMode": "builder",
-          "expr": "rate(request_size_bytes_bucket{method=\"READ\", nsid=\"$nsid\", instance=~\"$node\"}[$__rate_interval])",
+          "editorMode": "code",
+          "expr": "sum without (instance, sfs_hostname) (rate(request_size_bytes_bucket{cluster=\"$cluster\", method=\"READ\", nsid=\"$nsid\"}[$__rate_interval])) or sum without (instance, sfs_hostname) (rate(sfs_rpc_request_size_bytes_bucket{cluster=\"$cluster\", method=\"READ\", nsid=\"$nsid\"}[$__rate_interval]))",
           "format": "heatmap",
           "legendFormat": "{{le}}",
           "range": true,
@@ -3797,8 +3822,8 @@
             "type": "prometheus",
             "uid": "${DS_VICTORIAMETRICS}"
           },
-          "editorMode": "builder",
-          "expr": "rate(request_size_bytes_bucket{method=\"WRITE\", nsid=\"$nsid\", instance=~\"$node\"}[$__rate_interval])",
+          "editorMode": "code",
+          "expr": "sum without (instance, sfs_hostname) (rate(request_size_bytes_bucket{cluster=\"$cluster\", method=\"WRITE\", nsid=\"$nsid\"}[$__rate_interval])) or sum without (instance, sfs_hostname) (rate(sfs_rpc_request_size_bytes_bucket{cluster=\"$cluster\", method=\"WRITE\", nsid=\"$nsid\"}[$__rate_interval]))",
           "format": "heatmap",
           "legendFormat": "{{le}}",
           "range": true,
@@ -3809,7 +3834,7 @@
       "type": "heatmap-new"
     }
   ],
-  "refresh": false,
+  "refresh": "5s",
   "schemaVersion": 36,
   "style": "dark",
   "tags": [],
@@ -3821,30 +3846,7 @@
           "type": "prometheus",
           "uid": "${DS_VICTORIAMETRICS}"
         },
-        "definition": "label_values(request_latency_ms_count{cluster=\"$cluster\"},instance)",
-        "hide": 0,
-        "includeAll": true,
-        "label": "Host",
-        "multi": true,
-        "name": "node",
-        "options": [],
-        "query": {
-          "query": "label_values(request_latency_ms_count{cluster=\"$cluster\"},instance)",
-          "refId": "StandardVariableQuery"
-        },
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 1,
-        "type": "query"
-      },
-      {
-        "current": {},
-        "datasource": {
-          "type": "prometheus",
-          "uid": "${DS_VICTORIAMETRICS}"
-        },
-        "definition": "label_values(request_latency_ms_count{cluster=\"$cluster\"},nsid)",
+        "definition": "label_values({__name__=~\"request_latency_ns_count|request_latency_ms|sfs_rpc_response_duration_count\", job=\"sfs-client\", cluster=\"$cluster\"}, nsid)",
         "hide": 0,
         "includeAll": false,
         "label": "Namespace ID",
@@ -3852,7 +3854,7 @@
         "name": "nsid",
         "options": [],
         "query": {
-          "query": "label_values(request_latency_ms_count{cluster=\"$cluster\"},nsid)",
+          "query": "label_values({__name__=~\"request_latency_ns_count|request_latency_ms|sfs_rpc_response_duration_count\", job=\"sfs-client\", cluster=\"$cluster\"}, nsid)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
@@ -3867,7 +3869,7 @@
           "type": "prometheus",
           "uid": "${DS_VICTORIAMETRICS}"
         },
-        "definition": "label_values(request_latency_ms_count,method)",
+        "definition": "label_values({__name__=~\"request_latency_ns_count|request_latency_ms|sfs_rpc_response_duration_count\", job=\"sfs-client\"}, method)",
         "hide": 0,
         "includeAll": true,
         "label": "Method",
@@ -3875,11 +3877,11 @@
         "name": "method",
         "options": [],
         "query": {
-          "query": "label_values(request_latency_ms_count,method)",
+          "query": "label_values({__name__=~\"request_latency_ns_count|request_latency_ms|sfs_rpc_response_duration_count\", job=\"sfs-client\"}, method)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
-        "regex": "",
+        "regex": "/(?:Method\\()?([^)]+)(?:\\))?$/",
         "skipUrlSync": false,
         "sort": 1,
         "type": "query"
@@ -3890,7 +3892,7 @@
           "type": "prometheus",
           "uid": "${DS_VICTORIAMETRICS}"
         },
-        "definition": "label_values(request_latency_ms_count,cluster)",
+        "definition": "label_values({__name__=~\"request_latency_ns_count|request_latency_ms|sfs_rpc_response_duration_count\", job=\"sfs-client\"}, cluster)",
         "hide": 0,
         "includeAll": false,
         "label": "Cluster",
@@ -3898,7 +3900,7 @@
         "name": "cluster",
         "options": [],
         "query": {
-          "query": "label_values(request_latency_ms_count,cluster)",
+          "query": "label_values({__name__=~\"request_latency_ns_count|request_latency_ms|sfs_rpc_response_duration_count\", job=\"sfs-client\"}, cluster)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
@@ -3917,6 +3919,6 @@
   "timezone": "",
   "title": "SFS - Client",
   "uid": "eb0e36b5-5b6f-4cc0-ad9d-2ae722046721",
-  "version": 23,
+  "version": 15,
   "weekStart": ""
 }
