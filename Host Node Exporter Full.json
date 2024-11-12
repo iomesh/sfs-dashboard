@@ -24168,6 +24168,24 @@
           "text": "VictoriaMetrics",
           "value": "VictoriaMetrics"
         },
+        "hide": 2,
+        "includeAll": false,
+        "multi": false,
+        "name": "DS_VICTORIAMETRICS",
+        "options": [],
+        "query": "prometheus",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "VictoriaMetrics",
+          "value": "VictoriaMetrics"
+        },
         "hide": 0,
         "includeAll": false,
         "label": "Datasource",
