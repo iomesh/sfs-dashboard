@@ -339,7 +339,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(sfs_rpc_inflight_count{cluster=\"$cluster\", instance=~\"$node\"}) by (instance) ",
+          "expr": "sum(sfs_rpc_inflight_count{cluster=\"$cluster\", instance=~\"$node\", shard_id=\"$shard_id\"}) by (instance) ",
           "instant": false,
           "legendFormat": "__auto",
           "range": true,
@@ -514,9 +514,7 @@
               "id": "byNames",
               "options": {
                 "mode": "exclude",
-                "names": [
-                  "Setattr"
-                ],
+                "names": ["Setattr"],
                 "prefix": "All except:",
                 "readOnly": true
               }
@@ -630,9 +628,7 @@
               "id": "byNames",
               "options": {
                 "mode": "exclude",
-                "names": [
-                  "Getattr"
-                ],
+                "names": ["Getattr"],
                 "prefix": "All except:",
                 "readOnly": true
               }
@@ -746,9 +742,7 @@
               "id": "byNames",
               "options": {
                 "mode": "exclude",
-                "names": [
-                  "Setattr"
-                ],
+                "names": ["Setattr"],
                 "prefix": "All except:",
                 "readOnly": true
               }
