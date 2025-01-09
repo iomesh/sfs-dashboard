@@ -507,30 +507,7 @@
           },
           "unit": "ms"
         },
-        "overrides": [
-          {
-            "__systemRef": "hideSeriesFrom",
-            "matcher": {
-              "id": "byNames",
-              "options": {
-                "mode": "exclude",
-                "names": ["Setattr"],
-                "prefix": "All except:",
-                "readOnly": true
-              }
-            },
-            "properties": [
-              {
-                "id": "custom.hideFrom",
-                "value": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": true
-                }
-              }
-            ]
-          }
-        ]
+        "overrides": []
       },
       "gridPos": {
         "h": 8,
@@ -621,30 +598,7 @@
           },
           "unit": "ms"
         },
-        "overrides": [
-          {
-            "__systemRef": "hideSeriesFrom",
-            "matcher": {
-              "id": "byNames",
-              "options": {
-                "mode": "exclude",
-                "names": ["Getattr"],
-                "prefix": "All except:",
-                "readOnly": true
-              }
-            },
-            "properties": [
-              {
-                "id": "custom.hideFrom",
-                "value": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": true
-                }
-              }
-            ]
-          }
-        ]
+        "overrides": []
       },
       "gridPos": {
         "h": 8,
@@ -735,30 +689,7 @@
           },
           "unit": "ms"
         },
-        "overrides": [
-          {
-            "__systemRef": "hideSeriesFrom",
-            "matcher": {
-              "id": "byNames",
-              "options": {
-                "mode": "exclude",
-                "names": ["Setattr"],
-                "prefix": "All except:",
-                "readOnly": true
-              }
-            },
-            "properties": [
-              {
-                "id": "custom.hideFrom",
-                "value": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": true
-                }
-              }
-            ]
-          }
-        ]
+        "overrides": []
       },
       "gridPos": {
         "h": 8,
@@ -2876,7 +2807,7 @@
           "type": "prometheus",
           "uid": "${DS_VICTORIAMETRICS}"
         },
-        "definition": "label_values({__name__=~\"request_latency_ns_count|request_latency_ms|sfs_rpc_response_duration_count\", job=\"sfs-meta\", cluster=\"$cluster\"}, shard_id)",
+        "definition": "label_values({__name__=~\"request_latency_ns_count|request_latency_ms|sfs_rpc_response_duration_count\", job=\"sfs-meta\", cluster=\"$cluster\", instance=\"$node\"}, shard_id)",
         "hide": 0,
         "includeAll": false,
         "label": "Shard ID",
@@ -2884,7 +2815,7 @@
         "name": "shard_id",
         "options": [],
         "query": {
-          "query": "label_values({__name__=~\"request_latency_ns_count|request_latency_ms|sfs_rpc_response_duration_count\", job=\"sfs-meta\", cluster=\"$cluster\"}, shard_id)",
+          "query": "label_values({__name__=~\"request_latency_ns_count|request_latency_ms|sfs_rpc_response_duration_count\", job=\"sfs-meta\", cluster=\"$cluster\", instance=\"$node\"}, shard_id)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
@@ -2948,7 +2879,7 @@
   "timepicker": {},
   "timezone": "",
   "title": "SFS - Meta",
-  "uid": "eb0e36b5-5b6f-4cc0-ad9d-2ae722046722",
-  "version": 8,
+  "uid": "eb0e36b5-5b6f-4cc0-ad9d-2ae722046731",
+  "version": 3,
   "weekStart": ""
 }

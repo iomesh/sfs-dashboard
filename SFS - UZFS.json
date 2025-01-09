@@ -55,7 +55,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 19,
+  "id": null,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -137,7 +137,12 @@
       "id": 1,
       "options": {
         "legend": {
-          "calcs": ["mean", "lastNotNull", "max", "min"],
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max",
+            "min"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true,
@@ -224,30 +229,7 @@
           },
           "unit": "ns"
         },
-        "overrides": [
-          {
-            "__systemRef": "hideSeriesFrom",
-            "matcher": {
-              "id": "byNames",
-              "options": {
-                "mode": "exclude",
-                "names": ["ReadObject"],
-                "prefix": "All except:",
-                "readOnly": true
-              }
-            },
-            "properties": [
-              {
-                "id": "custom.hideFrom",
-                "value": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": true
-                }
-              }
-            ]
-          }
-        ]
+        "overrides": []
       },
       "gridPos": {
         "h": 8,
@@ -258,7 +240,12 @@
       "id": 9,
       "options": {
         "legend": {
-          "calcs": ["mean", "lastNotNull", "max", "min"],
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max",
+            "min"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true,
@@ -344,30 +331,7 @@
             ]
           }
         },
-        "overrides": [
-          {
-            "__systemRef": "hideSeriesFrom",
-            "matcher": {
-              "id": "byNames",
-              "options": {
-                "mode": "exclude",
-                "names": ["ReadObject"],
-                "prefix": "All except:",
-                "readOnly": true
-              }
-            },
-            "properties": [
-              {
-                "id": "custom.hideFrom",
-                "value": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": true
-                }
-              }
-            ]
-          }
-        ]
+        "overrides": []
       },
       "gridPos": {
         "h": 8,
@@ -378,7 +342,12 @@
       "id": 10,
       "options": {
         "legend": {
-          "calcs": ["mean", "lastNotNull", "max", "min"],
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max",
+            "min"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true,
@@ -472,7 +441,12 @@
       "id": 9,
       "options": {
         "legend": {
-          "calcs": ["mean", "lastNotNull", "max", "min"],
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max",
+            "min"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true,
@@ -569,7 +543,12 @@
       "id": 19,
       "options": {
         "legend": {
-          "calcs": ["mean", "lastNotNull", "max", "min"],
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max",
+            "min"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true,
@@ -672,7 +651,9 @@
               "id": "byNames",
               "options": {
                 "mode": "exclude",
-                "names": ["Ready"],
+                "names": [
+                  "Ready"
+                ],
                 "prefix": "All except:",
                 "readOnly": true
               }
@@ -699,7 +680,12 @@
       "id": 16,
       "options": {
         "legend": {
-          "calcs": ["lastNotNull", "min", "max", "mean"],
+          "calcs": [
+            "lastNotNull",
+            "min",
+            "max",
+            "mean"
+          ],
           "displayMode": "table",
           "placement": "bottom"
         },
@@ -789,7 +775,12 @@
       "id": 14,
       "options": {
         "legend": {
-          "calcs": ["lastNotNull", "min", "max", "mean"],
+          "calcs": [
+            "lastNotNull",
+            "min",
+            "max",
+            "mean"
+          ],
           "displayMode": "table",
           "placement": "bottom"
         },
@@ -868,30 +859,7 @@
           },
           "unit": "ns"
         },
-        "overrides": [
-          {
-            "__systemRef": "hideSeriesFrom",
-            "matcher": {
-              "id": "byNames",
-              "options": {
-                "mode": "exclude",
-                "names": ["VdevIoDone"],
-                "prefix": "All except:",
-                "readOnly": true
-              }
-            },
-            "properties": [
-              {
-                "id": "custom.hideFrom",
-                "value": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": true
-                }
-              }
-            ]
-          }
-        ]
+        "overrides": []
       },
       "gridPos": {
         "h": 8,
@@ -902,7 +870,12 @@
       "id": 18,
       "options": {
         "legend": {
-          "calcs": ["lastNotNull", "min", "max", "mean"],
+          "calcs": [
+            "lastNotNull",
+            "min",
+            "max",
+            "mean"
+          ],
           "displayMode": "table",
           "placement": "bottom"
         },
@@ -933,7 +906,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 34
+        "y": 42
       },
       "id": 7,
       "panels": [],
@@ -1000,7 +973,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 35
+        "y": 43
       },
       "id": 3,
       "options": {
@@ -1096,7 +1069,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 35
+        "y": 43
       },
       "id": 4,
       "options": {
@@ -1192,7 +1165,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 43
+        "y": 51
       },
       "id": 5,
       "options": {
@@ -1331,7 +1304,7 @@
   "timepicker": {},
   "timezone": "",
   "title": "SFS - UZFS",
-  "uid": "b199b72e-d60b-41e0-a166-3a89a2cb0bc0",
-  "version": 6,
+  "uid": "b199b72e-d60b-41e0-a166-3a89a2cb0bc1",
+  "version": 1,
   "weekStart": ""
 }
