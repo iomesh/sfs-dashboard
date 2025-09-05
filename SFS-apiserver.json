@@ -1164,7 +1164,7 @@
 						"uid": "${DS_VICTORIAMETRICS}"
 					},
 					"exemplar": true,
-					"expr": "max by(resource) (apiserver_storage_objects)",
+					"expr": "max by(resource) (apiserver_storage_objects{cluster=~\"$cluster\"})",
 					"interval": "$resolution",
 					"legendFormat": "{{ verb}}",
 					"refId": "A"
@@ -2139,6 +2139,6 @@
 	"timezone": "",
 	"title": "SFS - apiserver",
 	"uid": "k8s_system_apisrv",
-	"version": 25,
+	"version": 26,
 	"weekStart": ""
 }
