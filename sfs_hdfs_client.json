@@ -1,0 +1,4253 @@
+{
+  "__inputs": [
+    {
+      "description": "",
+      "label": "test-cluster",
+      "name": "DS_TEST-CLUSTER",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus",
+      "type": "datasource"
+    }
+  ],
+  "annotations": {
+    "list": []
+  },
+  "description": "Dashboard for monitoring SFS HDFS Client service performance and operations",
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "hideControls": false,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "cacheTimeout": null,
+      "collapsed": true,
+      "datasource": null,
+      "description": null,
+      "editable": true,
+      "error": false,
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": []
+          }
+        }
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "height": null,
+      "hideTimeOverride": false,
+      "id": 1,
+      "interval": null,
+      "links": [],
+      "maxDataPoints": 100,
+      "maxPerRow": null,
+      "minSpan": null,
+      "panels": [
+        {
+          "cacheTimeout": null,
+          "datasource": "${DS_TEST-CLUSTER}",
+          "description": null,
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "axisSoftMax": null,
+                "axisSoftMin": null,
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 10,
+                "gradientMode": "opacity",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "log": 2,
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {},
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": null,
+              "mappings": [],
+              "max": null,
+              "min": null,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": "ops"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 0
+          },
+          "height": null,
+          "hideTimeOverride": false,
+          "id": 2,
+          "interval": null,
+          "links": [],
+          "maxDataPoints": null,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "legend": {
+              "calcs": [
+                "max",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "right"
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "span": null,
+          "targets": [
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "sum( rate( sfs_hdfs_rpc_response_duration_count {sfs_hostname=~\"$cluster-.*\",hdfs_nsid=\"$nsid\"} [$__rate_interval] ) ) by (method)",
+              "format": "time_series",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "{{method}}",
+              "metric": "",
+              "query": "sum( rate( sfs_hdfs_rpc_response_duration_count {sfs_hostname=~\"$cluster-.*\",hdfs_nsid=\"$nsid\"} [$__rate_interval] ) ) by (method)",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Total request rate",
+          "transformations": [],
+          "transparent": false,
+          "type": "timeseries"
+        },
+        {
+          "cacheTimeout": null,
+          "datasource": "${DS_TEST-CLUSTER}",
+          "description": null,
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "axisSoftMax": null,
+                "axisSoftMin": null,
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 10,
+                "gradientMode": "opacity",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "log": 2,
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {},
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": null,
+              "mappings": [],
+              "max": null,
+              "min": null,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": "ms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 0
+          },
+          "height": null,
+          "hideTimeOverride": false,
+          "id": 3,
+          "interval": null,
+          "links": [],
+          "maxDataPoints": null,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "legend": {
+              "calcs": [
+                "max",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "right"
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "span": null,
+          "targets": [
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "(sum( rate( sfs_hdfs_rpc_response_duration_sum {sfs_hostname=~\"$cluster-.*\",hdfs_nsid=\"$nsid\"} [$__rate_interval] ) ) by (method) / sum( rate( sfs_hdfs_rpc_response_duration_count {sfs_hostname=~\"$cluster-.*\",hdfs_nsid=\"$nsid\"} [$__rate_interval] ) ) by (method))",
+              "format": "time_series",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "{{method}}",
+              "metric": "",
+              "query": "(sum( rate( sfs_hdfs_rpc_response_duration_sum {sfs_hostname=~\"$cluster-.*\",hdfs_nsid=\"$nsid\"} [$__rate_interval] ) ) by (method) / sum( rate( sfs_hdfs_rpc_response_duration_count {sfs_hostname=~\"$cluster-.*\",hdfs_nsid=\"$nsid\"} [$__rate_interval] ) ) by (method))",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Weighted Latency (User Experience)",
+          "transformations": [],
+          "transparent": false,
+          "type": "timeseries"
+        },
+        {
+          "cacheTimeout": null,
+          "datasource": "${DS_TEST-CLUSTER}",
+          "description": null,
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "axisSoftMax": null,
+                "axisSoftMin": null,
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 10,
+                "gradientMode": "opacity",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "log": 2,
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {},
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": null,
+              "mappings": [],
+              "max": null,
+              "min": null,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": "Bps"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 7
+          },
+          "height": null,
+          "hideTimeOverride": false,
+          "id": 4,
+          "interval": null,
+          "links": [],
+          "maxDataPoints": null,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "legend": {
+              "calcs": [
+                "max",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "right"
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "span": null,
+          "targets": [
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "sum( rate( sfs_hdfs_rpc_request_size_bytes_sum {sfs_hostname=~\"$cluster-.*\",hdfs_nsid=\"$nsid\",method=\"PREAD\"} [$__rate_interval] ) )",
+              "format": "time_series",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Read",
+              "metric": "",
+              "query": "sum( rate( sfs_hdfs_rpc_request_size_bytes_sum {sfs_hostname=~\"$cluster-.*\",hdfs_nsid=\"$nsid\",method=\"PREAD\"} [$__rate_interval] ) )",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            },
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "sum( rate( sfs_hdfs_rpc_request_size_bytes_sum {sfs_hostname=~\"$cluster-.*\",hdfs_nsid=\"$nsid\",method=\"WRITE\"} [$__rate_interval] ) )",
+              "format": "time_series",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Write",
+              "metric": "",
+              "query": "sum( rate( sfs_hdfs_rpc_request_size_bytes_sum {sfs_hostname=~\"$cluster-.*\",hdfs_nsid=\"$nsid\",method=\"WRITE\"} [$__rate_interval] ) )",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Total throughput (Bytes/s)",
+          "transformations": [],
+          "transparent": false,
+          "type": "timeseries"
+        },
+        {
+          "cacheTimeout": null,
+          "datasource": "${DS_TEST-CLUSTER}",
+          "description": null,
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "axisSoftMax": null,
+                "axisSoftMin": null,
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 10,
+                "gradientMode": "opacity",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "log": 2,
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {},
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": null,
+              "mappings": [],
+              "max": null,
+              "min": null,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": "ms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 7
+          },
+          "height": null,
+          "hideTimeOverride": false,
+          "id": 5,
+          "interval": null,
+          "links": [],
+          "maxDataPoints": null,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "legend": {
+              "calcs": [
+                "max",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "right"
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "span": null,
+          "targets": [
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "avg( (rate( sfs_hdfs_rpc_response_duration_sum {sfs_hostname=~\"$cluster-.*\",hdfs_nsid=\"$nsid\"} [$__rate_interval] ) / rate( sfs_hdfs_rpc_response_duration_count {sfs_hostname=~\"$cluster-.*\",hdfs_nsid=\"$nsid\"} [$__rate_interval] )) ) by (method)",
+              "format": "time_series",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "{{method}}",
+              "metric": "",
+              "query": "avg( (rate( sfs_hdfs_rpc_response_duration_sum {sfs_hostname=~\"$cluster-.*\",hdfs_nsid=\"$nsid\"} [$__rate_interval] ) / rate( sfs_hdfs_rpc_response_duration_count {sfs_hostname=~\"$cluster-.*\",hdfs_nsid=\"$nsid\"} [$__rate_interval] )) ) by (method)",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Per-Method Average Latency (Unweighted)",
+          "transformations": [],
+          "transparent": false,
+          "type": "timeseries"
+        },
+        {
+          "cacheTimeout": null,
+          "datasource": "${DS_TEST-CLUSTER}",
+          "description": null,
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "axisSoftMax": null,
+                "axisSoftMin": null,
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 10,
+                "gradientMode": "opacity",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "log": 2,
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {},
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": null,
+              "mappings": [],
+              "max": null,
+              "min": null,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 14
+          },
+          "height": null,
+          "hideTimeOverride": false,
+          "id": 6,
+          "interval": null,
+          "links": [],
+          "maxDataPoints": null,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "legend": {
+              "calcs": [
+                "max",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "right"
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "span": null,
+          "targets": [
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "sum( sfs_hdfs_rpc_inflight_count {sfs_hostname=~\"$cluster-.*\",hdfs_nsid=\"$nsid\"} )",
+              "format": "time_series",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "In flight RPCs",
+              "metric": "",
+              "query": "sum( sfs_hdfs_rpc_inflight_count {sfs_hostname=~\"$cluster-.*\",hdfs_nsid=\"$nsid\"} )",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "RPCs in flight",
+          "transformations": [],
+          "transparent": false,
+          "type": "timeseries"
+        }
+      ],
+      "repeat": null,
+      "repeatDirection": null,
+      "span": null,
+      "targets": [],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Summary",
+      "transformations": [],
+      "transparent": false,
+      "type": "row"
+    },
+    {
+      "cacheTimeout": null,
+      "collapsed": true,
+      "datasource": null,
+      "description": null,
+      "editable": true,
+      "error": false,
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": []
+          }
+        }
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "height": null,
+      "hideTimeOverride": false,
+      "id": 7,
+      "interval": null,
+      "links": [],
+      "maxDataPoints": 100,
+      "maxPerRow": null,
+      "minSpan": null,
+      "panels": [
+        {
+          "cacheTimeout": null,
+          "datasource": "${DS_TEST-CLUSTER}",
+          "description": null,
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "axisSoftMax": null,
+                "axisSoftMin": null,
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 10,
+                "gradientMode": "opacity",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "log": 2,
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {},
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": null,
+              "mappings": [],
+              "max": null,
+              "min": null,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": "ms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 0
+          },
+          "height": null,
+          "hideTimeOverride": false,
+          "id": 8,
+          "interval": null,
+          "links": [],
+          "maxDataPoints": null,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "legend": {
+              "calcs": [
+                "max",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "right"
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "span": null,
+          "targets": [
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "histogram_quantile(0.01, sum without(client_ip, sfs_hostname) (rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\"}[$__rate_interval])))",
+              "format": "time_series",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "{{method}}",
+              "metric": "",
+              "query": "histogram_quantile(0.01, sum without(client_ip, sfs_hostname) (rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\"}[$__rate_interval])))",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "1% latency",
+          "transformations": [],
+          "transparent": false,
+          "type": "timeseries"
+        },
+        {
+          "cacheTimeout": null,
+          "datasource": "${DS_TEST-CLUSTER}",
+          "description": null,
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "axisSoftMax": null,
+                "axisSoftMin": null,
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 10,
+                "gradientMode": "opacity",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "log": 2,
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {},
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": null,
+              "mappings": [],
+              "max": null,
+              "min": null,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": "ms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 0
+          },
+          "height": null,
+          "hideTimeOverride": false,
+          "id": 9,
+          "interval": null,
+          "links": [],
+          "maxDataPoints": null,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "legend": {
+              "calcs": [
+                "max",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "right"
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "span": null,
+          "targets": [
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "histogram_quantile(0.9, sum without(client_ip, sfs_hostname) (rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\"}[$__rate_interval])))",
+              "format": "time_series",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "{{method}}",
+              "metric": "",
+              "query": "histogram_quantile(0.9, sum without(client_ip, sfs_hostname) (rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\"}[$__rate_interval])))",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "90% latency",
+          "transformations": [],
+          "transparent": false,
+          "type": "timeseries"
+        },
+        {
+          "cacheTimeout": null,
+          "datasource": "${DS_TEST-CLUSTER}",
+          "description": null,
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "axisSoftMax": null,
+                "axisSoftMin": null,
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 10,
+                "gradientMode": "opacity",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "log": 2,
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {},
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": null,
+              "mappings": [],
+              "max": null,
+              "min": null,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": "ms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 7
+          },
+          "height": null,
+          "hideTimeOverride": false,
+          "id": 10,
+          "interval": null,
+          "links": [],
+          "maxDataPoints": null,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "legend": {
+              "calcs": [
+                "max",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "right"
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "span": null,
+          "targets": [
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "histogram_quantile(0.5, sum without(client_ip, sfs_hostname) (rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\"}[$__rate_interval])))",
+              "format": "time_series",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "{{method}}",
+              "metric": "",
+              "query": "histogram_quantile(0.5, sum without(client_ip, sfs_hostname) (rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\"}[$__rate_interval])))",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "50% (median) latency",
+          "transformations": [],
+          "transparent": false,
+          "type": "timeseries"
+        },
+        {
+          "cacheTimeout": null,
+          "datasource": "${DS_TEST-CLUSTER}",
+          "description": null,
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "axisSoftMax": null,
+                "axisSoftMin": null,
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 10,
+                "gradientMode": "opacity",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "log": 2,
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {},
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": null,
+              "mappings": [],
+              "max": null,
+              "min": null,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": "ms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 7
+          },
+          "height": null,
+          "hideTimeOverride": false,
+          "id": 11,
+          "interval": null,
+          "links": [],
+          "maxDataPoints": null,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "legend": {
+              "calcs": [
+                "max",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "right"
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "span": null,
+          "targets": [
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "histogram_quantile(0.95, sum without(client_ip, sfs_hostname) (rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\"}[$__rate_interval])))",
+              "format": "time_series",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "{{method}}",
+              "metric": "",
+              "query": "histogram_quantile(0.95, sum without(client_ip, sfs_hostname) (rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\"}[$__rate_interval])))",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "95% latency",
+          "transformations": [],
+          "transparent": false,
+          "type": "timeseries"
+        }
+      ],
+      "repeat": null,
+      "repeatDirection": null,
+      "span": null,
+      "targets": [],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Latency",
+      "transformations": [],
+      "transparent": false,
+      "type": "row"
+    },
+    {
+      "cacheTimeout": null,
+      "collapsed": true,
+      "datasource": null,
+      "description": null,
+      "editable": true,
+      "error": false,
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": []
+          }
+        }
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "height": null,
+      "hideTimeOverride": false,
+      "id": 12,
+      "interval": null,
+      "links": [],
+      "maxDataPoints": 100,
+      "maxPerRow": null,
+      "minSpan": null,
+      "panels": [
+        {
+          "cacheTimeout": null,
+          "cards": {
+            "cardPadding": null,
+            "cardRound": null
+          },
+          "color": {
+            "cardColor": "#b4ff00",
+            "colorScale": "sqrt",
+            "colorScheme": "interpolateSpectral",
+            "exponent": 0.5,
+            "max": null,
+            "min": null,
+            "mode": "spectrum"
+          },
+          "dataFormat": "tsbuckets",
+          "datasource": "${DS_TEST-CLUSTER}",
+          "description": "Latency distribution for MKDIRS operations",
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "scheme",
+                "scheme": "Cool"
+              },
+              "custom": {
+                "scaleDistribution": {
+                  "log": 10,
+                  "type": "log"
+                }
+              },
+              "noValue": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "transparent",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "ms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 0
+          },
+          "heatmap": {},
+          "height": null,
+          "hideTimeOverride": false,
+          "hideZeroBuckets": true,
+          "highlightCards": true,
+          "id": 13,
+          "interval": null,
+          "legend": {
+            "show": false
+          },
+          "links": [],
+          "maxDataPoints": 512,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "calculate": false,
+            "calculation": {
+              "xBuckets": {
+                "mode": "size",
+                "value": "auto"
+              },
+              "yBuckets": {
+                "mode": "size",
+                "value": "auto"
+              }
+            },
+            "cellGap": 1,
+            "color": {
+              "exponent": 0.5,
+              "fill": "dark-orange",
+              "mode": "scheme",
+              "scale": "exponential",
+              "scheme": "Cool",
+              "steps": 128
+            },
+            "exemplars": {
+              "color": "rgba(255,0,255,0.7)"
+            },
+            "filterValues": {
+              "le": 1e-09
+            },
+            "rowsFrame": {
+              "layout": "auto"
+            },
+            "tooltip": {
+              "show": true,
+              "yHistogram": false
+            },
+            "yAxis": {
+              "axisPlacement": "left",
+              "reverse": false,
+              "unit": "ms"
+            }
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "reverseYBuckets": false,
+          "span": null,
+          "targets": [
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"MKDIRS\"}[$__rate_interval])\n        )",
+              "format": "heatmap",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "{{le}}",
+              "metric": "",
+              "query": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"MKDIRS\"}[$__rate_interval])\n        )",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "MKDIRS latency heatmap",
+          "tooltip": {
+            "msResolution": true,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "transformations": [],
+          "transparent": false,
+          "type": "heatmap-new",
+          "xAxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "xBucketNumber": null,
+          "xBucketSize": null,
+          "yAxis": {
+            "decimals": 1,
+            "format": "none",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          "yBucketBound": "upper",
+          "yBucketNumber": null,
+          "yBucketSize": null
+        },
+        {
+          "cacheTimeout": null,
+          "cards": {
+            "cardPadding": null,
+            "cardRound": null
+          },
+          "color": {
+            "cardColor": "#b4ff00",
+            "colorScale": "sqrt",
+            "colorScheme": "interpolateSpectral",
+            "exponent": 0.5,
+            "max": null,
+            "min": null,
+            "mode": "spectrum"
+          },
+          "dataFormat": "tsbuckets",
+          "datasource": "${DS_TEST-CLUSTER}",
+          "description": "Latency distribution for READDIR operations",
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "scheme",
+                "scheme": "Cool"
+              },
+              "custom": {
+                "scaleDistribution": {
+                  "log": 10,
+                  "type": "log"
+                }
+              },
+              "noValue": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "transparent",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "ms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 0
+          },
+          "heatmap": {},
+          "height": null,
+          "hideTimeOverride": false,
+          "hideZeroBuckets": true,
+          "highlightCards": true,
+          "id": 14,
+          "interval": null,
+          "legend": {
+            "show": false
+          },
+          "links": [],
+          "maxDataPoints": 512,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "calculate": false,
+            "calculation": {
+              "xBuckets": {
+                "mode": "size",
+                "value": "auto"
+              },
+              "yBuckets": {
+                "mode": "size",
+                "value": "auto"
+              }
+            },
+            "cellGap": 1,
+            "color": {
+              "exponent": 0.5,
+              "fill": "dark-orange",
+              "mode": "scheme",
+              "scale": "exponential",
+              "scheme": "Cool",
+              "steps": 128
+            },
+            "exemplars": {
+              "color": "rgba(255,0,255,0.7)"
+            },
+            "filterValues": {
+              "le": 1e-09
+            },
+            "rowsFrame": {
+              "layout": "auto"
+            },
+            "tooltip": {
+              "show": true,
+              "yHistogram": false
+            },
+            "yAxis": {
+              "axisPlacement": "left",
+              "reverse": false,
+              "unit": "ms"
+            }
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "reverseYBuckets": false,
+          "span": null,
+          "targets": [
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"READDIR\"}[$__rate_interval])\n        )",
+              "format": "heatmap",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "{{le}}",
+              "metric": "",
+              "query": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"READDIR\"}[$__rate_interval])\n        )",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "READDIR latency heatmap",
+          "tooltip": {
+            "msResolution": true,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "transformations": [],
+          "transparent": false,
+          "type": "heatmap-new",
+          "xAxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "xBucketNumber": null,
+          "xBucketSize": null,
+          "yAxis": {
+            "decimals": 1,
+            "format": "none",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          "yBucketBound": "upper",
+          "yBucketNumber": null,
+          "yBucketSize": null
+        },
+        {
+          "cacheTimeout": null,
+          "cards": {
+            "cardPadding": null,
+            "cardRound": null
+          },
+          "color": {
+            "cardColor": "#b4ff00",
+            "colorScale": "sqrt",
+            "colorScheme": "interpolateSpectral",
+            "exponent": 0.5,
+            "max": null,
+            "min": null,
+            "mode": "spectrum"
+          },
+          "dataFormat": "tsbuckets",
+          "datasource": "${DS_TEST-CLUSTER}",
+          "description": "Latency distribution for OPENIN operations",
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "scheme",
+                "scheme": "Cool"
+              },
+              "custom": {
+                "scaleDistribution": {
+                  "log": 10,
+                  "type": "log"
+                }
+              },
+              "noValue": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "transparent",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "ms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 7
+          },
+          "heatmap": {},
+          "height": null,
+          "hideTimeOverride": false,
+          "hideZeroBuckets": true,
+          "highlightCards": true,
+          "id": 15,
+          "interval": null,
+          "legend": {
+            "show": false
+          },
+          "links": [],
+          "maxDataPoints": 512,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "calculate": false,
+            "calculation": {
+              "xBuckets": {
+                "mode": "size",
+                "value": "auto"
+              },
+              "yBuckets": {
+                "mode": "size",
+                "value": "auto"
+              }
+            },
+            "cellGap": 1,
+            "color": {
+              "exponent": 0.5,
+              "fill": "dark-orange",
+              "mode": "scheme",
+              "scale": "exponential",
+              "scheme": "Cool",
+              "steps": 128
+            },
+            "exemplars": {
+              "color": "rgba(255,0,255,0.7)"
+            },
+            "filterValues": {
+              "le": 1e-09
+            },
+            "rowsFrame": {
+              "layout": "auto"
+            },
+            "tooltip": {
+              "show": true,
+              "yHistogram": false
+            },
+            "yAxis": {
+              "axisPlacement": "left",
+              "reverse": false,
+              "unit": "ms"
+            }
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "reverseYBuckets": false,
+          "span": null,
+          "targets": [
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"OPENIN\"}[$__rate_interval])\n        )",
+              "format": "heatmap",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "{{le}}",
+              "metric": "",
+              "query": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"OPENIN\"}[$__rate_interval])\n        )",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "OPENIN latency heatmap",
+          "tooltip": {
+            "msResolution": true,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "transformations": [],
+          "transparent": false,
+          "type": "heatmap-new",
+          "xAxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "xBucketNumber": null,
+          "xBucketSize": null,
+          "yAxis": {
+            "decimals": 1,
+            "format": "none",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          "yBucketBound": "upper",
+          "yBucketNumber": null,
+          "yBucketSize": null
+        },
+        {
+          "cacheTimeout": null,
+          "cards": {
+            "cardPadding": null,
+            "cardRound": null
+          },
+          "color": {
+            "cardColor": "#b4ff00",
+            "colorScale": "sqrt",
+            "colorScheme": "interpolateSpectral",
+            "exponent": 0.5,
+            "max": null,
+            "min": null,
+            "mode": "spectrum"
+          },
+          "dataFormat": "tsbuckets",
+          "datasource": "${DS_TEST-CLUSTER}",
+          "description": "Latency distribution for CLOSEIN operations",
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "scheme",
+                "scheme": "Cool"
+              },
+              "custom": {
+                "scaleDistribution": {
+                  "log": 10,
+                  "type": "log"
+                }
+              },
+              "noValue": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "transparent",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "ms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 7
+          },
+          "heatmap": {},
+          "height": null,
+          "hideTimeOverride": false,
+          "hideZeroBuckets": true,
+          "highlightCards": true,
+          "id": 16,
+          "interval": null,
+          "legend": {
+            "show": false
+          },
+          "links": [],
+          "maxDataPoints": 512,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "calculate": false,
+            "calculation": {
+              "xBuckets": {
+                "mode": "size",
+                "value": "auto"
+              },
+              "yBuckets": {
+                "mode": "size",
+                "value": "auto"
+              }
+            },
+            "cellGap": 1,
+            "color": {
+              "exponent": 0.5,
+              "fill": "dark-orange",
+              "mode": "scheme",
+              "scale": "exponential",
+              "scheme": "Cool",
+              "steps": 128
+            },
+            "exemplars": {
+              "color": "rgba(255,0,255,0.7)"
+            },
+            "filterValues": {
+              "le": 1e-09
+            },
+            "rowsFrame": {
+              "layout": "auto"
+            },
+            "tooltip": {
+              "show": true,
+              "yHistogram": false
+            },
+            "yAxis": {
+              "axisPlacement": "left",
+              "reverse": false,
+              "unit": "ms"
+            }
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "reverseYBuckets": false,
+          "span": null,
+          "targets": [
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"CLOSEIN\"}[$__rate_interval])\n        )",
+              "format": "heatmap",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "{{le}}",
+              "metric": "",
+              "query": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"CLOSEIN\"}[$__rate_interval])\n        )",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "CLOSEIN latency heatmap",
+          "tooltip": {
+            "msResolution": true,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "transformations": [],
+          "transparent": false,
+          "type": "heatmap-new",
+          "xAxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "xBucketNumber": null,
+          "xBucketSize": null,
+          "yAxis": {
+            "decimals": 1,
+            "format": "none",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          "yBucketBound": "upper",
+          "yBucketNumber": null,
+          "yBucketSize": null
+        },
+        {
+          "cacheTimeout": null,
+          "cards": {
+            "cardPadding": null,
+            "cardRound": null
+          },
+          "color": {
+            "cardColor": "#b4ff00",
+            "colorScale": "sqrt",
+            "colorScheme": "interpolateSpectral",
+            "exponent": 0.5,
+            "max": null,
+            "min": null,
+            "mode": "spectrum"
+          },
+          "dataFormat": "tsbuckets",
+          "datasource": "${DS_TEST-CLUSTER}",
+          "description": "Latency distribution for PREAD operations",
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "scheme",
+                "scheme": "Cool"
+              },
+              "custom": {
+                "scaleDistribution": {
+                  "log": 10,
+                  "type": "log"
+                }
+              },
+              "noValue": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "transparent",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "ms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 14
+          },
+          "heatmap": {},
+          "height": null,
+          "hideTimeOverride": false,
+          "hideZeroBuckets": true,
+          "highlightCards": true,
+          "id": 17,
+          "interval": null,
+          "legend": {
+            "show": false
+          },
+          "links": [],
+          "maxDataPoints": 512,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "calculate": false,
+            "calculation": {
+              "xBuckets": {
+                "mode": "size",
+                "value": "auto"
+              },
+              "yBuckets": {
+                "mode": "size",
+                "value": "auto"
+              }
+            },
+            "cellGap": 1,
+            "color": {
+              "exponent": 0.5,
+              "fill": "dark-orange",
+              "mode": "scheme",
+              "scale": "exponential",
+              "scheme": "Cool",
+              "steps": 128
+            },
+            "exemplars": {
+              "color": "rgba(255,0,255,0.7)"
+            },
+            "filterValues": {
+              "le": 1e-09
+            },
+            "rowsFrame": {
+              "layout": "auto"
+            },
+            "tooltip": {
+              "show": true,
+              "yHistogram": false
+            },
+            "yAxis": {
+              "axisPlacement": "left",
+              "reverse": false,
+              "unit": "ms"
+            }
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "reverseYBuckets": false,
+          "span": null,
+          "targets": [
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"PREAD\"}[$__rate_interval])\n        )",
+              "format": "heatmap",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "{{le}}",
+              "metric": "",
+              "query": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"PREAD\"}[$__rate_interval])\n        )",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "PREAD latency heatmap",
+          "tooltip": {
+            "msResolution": true,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "transformations": [],
+          "transparent": false,
+          "type": "heatmap-new",
+          "xAxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "xBucketNumber": null,
+          "xBucketSize": null,
+          "yAxis": {
+            "decimals": 1,
+            "format": "none",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          "yBucketBound": "upper",
+          "yBucketNumber": null,
+          "yBucketSize": null
+        },
+        {
+          "cacheTimeout": null,
+          "cards": {
+            "cardPadding": null,
+            "cardRound": null
+          },
+          "color": {
+            "cardColor": "#b4ff00",
+            "colorScale": "sqrt",
+            "colorScheme": "interpolateSpectral",
+            "exponent": 0.5,
+            "max": null,
+            "min": null,
+            "mode": "spectrum"
+          },
+          "dataFormat": "tsbuckets",
+          "datasource": "${DS_TEST-CLUSTER}",
+          "description": "Latency distribution for WRITE operations",
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "scheme",
+                "scheme": "Cool"
+              },
+              "custom": {
+                "scaleDistribution": {
+                  "log": 10,
+                  "type": "log"
+                }
+              },
+              "noValue": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "transparent",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "ms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 14
+          },
+          "heatmap": {},
+          "height": null,
+          "hideTimeOverride": false,
+          "hideZeroBuckets": true,
+          "highlightCards": true,
+          "id": 18,
+          "interval": null,
+          "legend": {
+            "show": false
+          },
+          "links": [],
+          "maxDataPoints": 512,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "calculate": false,
+            "calculation": {
+              "xBuckets": {
+                "mode": "size",
+                "value": "auto"
+              },
+              "yBuckets": {
+                "mode": "size",
+                "value": "auto"
+              }
+            },
+            "cellGap": 1,
+            "color": {
+              "exponent": 0.5,
+              "fill": "dark-orange",
+              "mode": "scheme",
+              "scale": "exponential",
+              "scheme": "Cool",
+              "steps": 128
+            },
+            "exemplars": {
+              "color": "rgba(255,0,255,0.7)"
+            },
+            "filterValues": {
+              "le": 1e-09
+            },
+            "rowsFrame": {
+              "layout": "auto"
+            },
+            "tooltip": {
+              "show": true,
+              "yHistogram": false
+            },
+            "yAxis": {
+              "axisPlacement": "left",
+              "reverse": false,
+              "unit": "ms"
+            }
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "reverseYBuckets": false,
+          "span": null,
+          "targets": [
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"WRITE\"}[$__rate_interval])\n        )",
+              "format": "heatmap",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "{{le}}",
+              "metric": "",
+              "query": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"WRITE\"}[$__rate_interval])\n        )",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "WRITE latency heatmap",
+          "tooltip": {
+            "msResolution": true,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "transformations": [],
+          "transparent": false,
+          "type": "heatmap-new",
+          "xAxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "xBucketNumber": null,
+          "xBucketSize": null,
+          "yAxis": {
+            "decimals": 1,
+            "format": "none",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          "yBucketBound": "upper",
+          "yBucketNumber": null,
+          "yBucketSize": null
+        },
+        {
+          "cacheTimeout": null,
+          "cards": {
+            "cardPadding": null,
+            "cardRound": null
+          },
+          "color": {
+            "cardColor": "#b4ff00",
+            "colorScale": "sqrt",
+            "colorScheme": "interpolateSpectral",
+            "exponent": 0.5,
+            "max": null,
+            "min": null,
+            "mode": "spectrum"
+          },
+          "dataFormat": "tsbuckets",
+          "datasource": "${DS_TEST-CLUSTER}",
+          "description": "Latency distribution for FSYNC operations",
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "scheme",
+                "scheme": "Cool"
+              },
+              "custom": {
+                "scaleDistribution": {
+                  "log": 10,
+                  "type": "log"
+                }
+              },
+              "noValue": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "transparent",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "ms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 21
+          },
+          "heatmap": {},
+          "height": null,
+          "hideTimeOverride": false,
+          "hideZeroBuckets": true,
+          "highlightCards": true,
+          "id": 19,
+          "interval": null,
+          "legend": {
+            "show": false
+          },
+          "links": [],
+          "maxDataPoints": 512,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "calculate": false,
+            "calculation": {
+              "xBuckets": {
+                "mode": "size",
+                "value": "auto"
+              },
+              "yBuckets": {
+                "mode": "size",
+                "value": "auto"
+              }
+            },
+            "cellGap": 1,
+            "color": {
+              "exponent": 0.5,
+              "fill": "dark-orange",
+              "mode": "scheme",
+              "scale": "exponential",
+              "scheme": "Cool",
+              "steps": 128
+            },
+            "exemplars": {
+              "color": "rgba(255,0,255,0.7)"
+            },
+            "filterValues": {
+              "le": 1e-09
+            },
+            "rowsFrame": {
+              "layout": "auto"
+            },
+            "tooltip": {
+              "show": true,
+              "yHistogram": false
+            },
+            "yAxis": {
+              "axisPlacement": "left",
+              "reverse": false,
+              "unit": "ms"
+            }
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "reverseYBuckets": false,
+          "span": null,
+          "targets": [
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"FSYNC\"}[$__rate_interval])\n        )",
+              "format": "heatmap",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "{{le}}",
+              "metric": "",
+              "query": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"FSYNC\"}[$__rate_interval])\n        )",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "FSYNC latency heatmap",
+          "tooltip": {
+            "msResolution": true,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "transformations": [],
+          "transparent": false,
+          "type": "heatmap-new",
+          "xAxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "xBucketNumber": null,
+          "xBucketSize": null,
+          "yAxis": {
+            "decimals": 1,
+            "format": "none",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          "yBucketBound": "upper",
+          "yBucketNumber": null,
+          "yBucketSize": null
+        },
+        {
+          "cacheTimeout": null,
+          "cards": {
+            "cardPadding": null,
+            "cardRound": null
+          },
+          "color": {
+            "cardColor": "#b4ff00",
+            "colorScale": "sqrt",
+            "colorScheme": "interpolateSpectral",
+            "exponent": 0.5,
+            "max": null,
+            "min": null,
+            "mode": "spectrum"
+          },
+          "dataFormat": "tsbuckets",
+          "datasource": "${DS_TEST-CLUSTER}",
+          "description": "Latency distribution for FLUSH operations",
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "scheme",
+                "scheme": "Cool"
+              },
+              "custom": {
+                "scaleDistribution": {
+                  "log": 10,
+                  "type": "log"
+                }
+              },
+              "noValue": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "transparent",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "ms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 21
+          },
+          "heatmap": {},
+          "height": null,
+          "hideTimeOverride": false,
+          "hideZeroBuckets": true,
+          "highlightCards": true,
+          "id": 20,
+          "interval": null,
+          "legend": {
+            "show": false
+          },
+          "links": [],
+          "maxDataPoints": 512,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "calculate": false,
+            "calculation": {
+              "xBuckets": {
+                "mode": "size",
+                "value": "auto"
+              },
+              "yBuckets": {
+                "mode": "size",
+                "value": "auto"
+              }
+            },
+            "cellGap": 1,
+            "color": {
+              "exponent": 0.5,
+              "fill": "dark-orange",
+              "mode": "scheme",
+              "scale": "exponential",
+              "scheme": "Cool",
+              "steps": 128
+            },
+            "exemplars": {
+              "color": "rgba(255,0,255,0.7)"
+            },
+            "filterValues": {
+              "le": 1e-09
+            },
+            "rowsFrame": {
+              "layout": "auto"
+            },
+            "tooltip": {
+              "show": true,
+              "yHistogram": false
+            },
+            "yAxis": {
+              "axisPlacement": "left",
+              "reverse": false,
+              "unit": "ms"
+            }
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "reverseYBuckets": false,
+          "span": null,
+          "targets": [
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"FLUSH\"}[$__rate_interval])\n        )",
+              "format": "heatmap",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "{{le}}",
+              "metric": "",
+              "query": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"FLUSH\"}[$__rate_interval])\n        )",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "FLUSH latency heatmap",
+          "tooltip": {
+            "msResolution": true,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "transformations": [],
+          "transparent": false,
+          "type": "heatmap-new",
+          "xAxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "xBucketNumber": null,
+          "xBucketSize": null,
+          "yAxis": {
+            "decimals": 1,
+            "format": "none",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          "yBucketBound": "upper",
+          "yBucketNumber": null,
+          "yBucketSize": null
+        },
+        {
+          "cacheTimeout": null,
+          "cards": {
+            "cardPadding": null,
+            "cardRound": null
+          },
+          "color": {
+            "cardColor": "#b4ff00",
+            "colorScale": "sqrt",
+            "colorScheme": "interpolateSpectral",
+            "exponent": 0.5,
+            "max": null,
+            "min": null,
+            "mode": "spectrum"
+          },
+          "dataFormat": "tsbuckets",
+          "datasource": "${DS_TEST-CLUSTER}",
+          "description": "Latency distribution for OPENOUT operations",
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "scheme",
+                "scheme": "Cool"
+              },
+              "custom": {
+                "scaleDistribution": {
+                  "log": 10,
+                  "type": "log"
+                }
+              },
+              "noValue": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "transparent",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "ms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 28
+          },
+          "heatmap": {},
+          "height": null,
+          "hideTimeOverride": false,
+          "hideZeroBuckets": true,
+          "highlightCards": true,
+          "id": 21,
+          "interval": null,
+          "legend": {
+            "show": false
+          },
+          "links": [],
+          "maxDataPoints": 512,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "calculate": false,
+            "calculation": {
+              "xBuckets": {
+                "mode": "size",
+                "value": "auto"
+              },
+              "yBuckets": {
+                "mode": "size",
+                "value": "auto"
+              }
+            },
+            "cellGap": 1,
+            "color": {
+              "exponent": 0.5,
+              "fill": "dark-orange",
+              "mode": "scheme",
+              "scale": "exponential",
+              "scheme": "Cool",
+              "steps": 128
+            },
+            "exemplars": {
+              "color": "rgba(255,0,255,0.7)"
+            },
+            "filterValues": {
+              "le": 1e-09
+            },
+            "rowsFrame": {
+              "layout": "auto"
+            },
+            "tooltip": {
+              "show": true,
+              "yHistogram": false
+            },
+            "yAxis": {
+              "axisPlacement": "left",
+              "reverse": false,
+              "unit": "ms"
+            }
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "reverseYBuckets": false,
+          "span": null,
+          "targets": [
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"OPENOUT\"}[$__rate_interval])\n        )",
+              "format": "heatmap",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "{{le}}",
+              "metric": "",
+              "query": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"OPENOUT\"}[$__rate_interval])\n        )",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "OPENOUT latency heatmap",
+          "tooltip": {
+            "msResolution": true,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "transformations": [],
+          "transparent": false,
+          "type": "heatmap-new",
+          "xAxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "xBucketNumber": null,
+          "xBucketSize": null,
+          "yAxis": {
+            "decimals": 1,
+            "format": "none",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          "yBucketBound": "upper",
+          "yBucketNumber": null,
+          "yBucketSize": null
+        },
+        {
+          "cacheTimeout": null,
+          "cards": {
+            "cardPadding": null,
+            "cardRound": null
+          },
+          "color": {
+            "cardColor": "#b4ff00",
+            "colorScale": "sqrt",
+            "colorScheme": "interpolateSpectral",
+            "exponent": 0.5,
+            "max": null,
+            "min": null,
+            "mode": "spectrum"
+          },
+          "dataFormat": "tsbuckets",
+          "datasource": "${DS_TEST-CLUSTER}",
+          "description": "Latency distribution for CLOSEOUT operations",
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "scheme",
+                "scheme": "Cool"
+              },
+              "custom": {
+                "scaleDistribution": {
+                  "log": 10,
+                  "type": "log"
+                }
+              },
+              "noValue": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "transparent",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "ms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 28
+          },
+          "heatmap": {},
+          "height": null,
+          "hideTimeOverride": false,
+          "hideZeroBuckets": true,
+          "highlightCards": true,
+          "id": 22,
+          "interval": null,
+          "legend": {
+            "show": false
+          },
+          "links": [],
+          "maxDataPoints": 512,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "calculate": false,
+            "calculation": {
+              "xBuckets": {
+                "mode": "size",
+                "value": "auto"
+              },
+              "yBuckets": {
+                "mode": "size",
+                "value": "auto"
+              }
+            },
+            "cellGap": 1,
+            "color": {
+              "exponent": 0.5,
+              "fill": "dark-orange",
+              "mode": "scheme",
+              "scale": "exponential",
+              "scheme": "Cool",
+              "steps": 128
+            },
+            "exemplars": {
+              "color": "rgba(255,0,255,0.7)"
+            },
+            "filterValues": {
+              "le": 1e-09
+            },
+            "rowsFrame": {
+              "layout": "auto"
+            },
+            "tooltip": {
+              "show": true,
+              "yHistogram": false
+            },
+            "yAxis": {
+              "axisPlacement": "left",
+              "reverse": false,
+              "unit": "ms"
+            }
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "reverseYBuckets": false,
+          "span": null,
+          "targets": [
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"CLOSEOUT\"}[$__rate_interval])\n        )",
+              "format": "heatmap",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "{{le}}",
+              "metric": "",
+              "query": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"CLOSEOUT\"}[$__rate_interval])\n        )",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "CLOSEOUT latency heatmap",
+          "tooltip": {
+            "msResolution": true,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "transformations": [],
+          "transparent": false,
+          "type": "heatmap-new",
+          "xAxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "xBucketNumber": null,
+          "xBucketSize": null,
+          "yAxis": {
+            "decimals": 1,
+            "format": "none",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          "yBucketBound": "upper",
+          "yBucketNumber": null,
+          "yBucketSize": null
+        },
+        {
+          "cacheTimeout": null,
+          "cards": {
+            "cardPadding": null,
+            "cardRound": null
+          },
+          "color": {
+            "cardColor": "#b4ff00",
+            "colorScale": "sqrt",
+            "colorScheme": "interpolateSpectral",
+            "exponent": 0.5,
+            "max": null,
+            "min": null,
+            "mode": "spectrum"
+          },
+          "dataFormat": "tsbuckets",
+          "datasource": "${DS_TEST-CLUSTER}",
+          "description": "Latency distribution for RENAME operations",
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "scheme",
+                "scheme": "Cool"
+              },
+              "custom": {
+                "scaleDistribution": {
+                  "log": 10,
+                  "type": "log"
+                }
+              },
+              "noValue": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "transparent",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "ms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 35
+          },
+          "heatmap": {},
+          "height": null,
+          "hideTimeOverride": false,
+          "hideZeroBuckets": true,
+          "highlightCards": true,
+          "id": 23,
+          "interval": null,
+          "legend": {
+            "show": false
+          },
+          "links": [],
+          "maxDataPoints": 512,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "calculate": false,
+            "calculation": {
+              "xBuckets": {
+                "mode": "size",
+                "value": "auto"
+              },
+              "yBuckets": {
+                "mode": "size",
+                "value": "auto"
+              }
+            },
+            "cellGap": 1,
+            "color": {
+              "exponent": 0.5,
+              "fill": "dark-orange",
+              "mode": "scheme",
+              "scale": "exponential",
+              "scheme": "Cool",
+              "steps": 128
+            },
+            "exemplars": {
+              "color": "rgba(255,0,255,0.7)"
+            },
+            "filterValues": {
+              "le": 1e-09
+            },
+            "rowsFrame": {
+              "layout": "auto"
+            },
+            "tooltip": {
+              "show": true,
+              "yHistogram": false
+            },
+            "yAxis": {
+              "axisPlacement": "left",
+              "reverse": false,
+              "unit": "ms"
+            }
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "reverseYBuckets": false,
+          "span": null,
+          "targets": [
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"RENAME\"}[$__rate_interval])\n        )",
+              "format": "heatmap",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "{{le}}",
+              "metric": "",
+              "query": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"RENAME\"}[$__rate_interval])\n        )",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "RENAME latency heatmap",
+          "tooltip": {
+            "msResolution": true,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "transformations": [],
+          "transparent": false,
+          "type": "heatmap-new",
+          "xAxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "xBucketNumber": null,
+          "xBucketSize": null,
+          "yAxis": {
+            "decimals": 1,
+            "format": "none",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          "yBucketBound": "upper",
+          "yBucketNumber": null,
+          "yBucketSize": null
+        },
+        {
+          "cacheTimeout": null,
+          "cards": {
+            "cardPadding": null,
+            "cardRound": null
+          },
+          "color": {
+            "cardColor": "#b4ff00",
+            "colorScale": "sqrt",
+            "colorScheme": "interpolateSpectral",
+            "exponent": 0.5,
+            "max": null,
+            "min": null,
+            "mode": "spectrum"
+          },
+          "dataFormat": "tsbuckets",
+          "datasource": "${DS_TEST-CLUSTER}",
+          "description": "Latency distribution for DELETE operations",
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "scheme",
+                "scheme": "Cool"
+              },
+              "custom": {
+                "scaleDistribution": {
+                  "log": 10,
+                  "type": "log"
+                }
+              },
+              "noValue": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "transparent",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "ms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 35
+          },
+          "heatmap": {},
+          "height": null,
+          "hideTimeOverride": false,
+          "hideZeroBuckets": true,
+          "highlightCards": true,
+          "id": 24,
+          "interval": null,
+          "legend": {
+            "show": false
+          },
+          "links": [],
+          "maxDataPoints": 512,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "calculate": false,
+            "calculation": {
+              "xBuckets": {
+                "mode": "size",
+                "value": "auto"
+              },
+              "yBuckets": {
+                "mode": "size",
+                "value": "auto"
+              }
+            },
+            "cellGap": 1,
+            "color": {
+              "exponent": 0.5,
+              "fill": "dark-orange",
+              "mode": "scheme",
+              "scale": "exponential",
+              "scheme": "Cool",
+              "steps": 128
+            },
+            "exemplars": {
+              "color": "rgba(255,0,255,0.7)"
+            },
+            "filterValues": {
+              "le": 1e-09
+            },
+            "rowsFrame": {
+              "layout": "auto"
+            },
+            "tooltip": {
+              "show": true,
+              "yHistogram": false
+            },
+            "yAxis": {
+              "axisPlacement": "left",
+              "reverse": false,
+              "unit": "ms"
+            }
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "reverseYBuckets": false,
+          "span": null,
+          "targets": [
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"DELETE\"}[$__rate_interval])\n        )",
+              "format": "heatmap",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "{{le}}",
+              "metric": "",
+              "query": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"DELETE\"}[$__rate_interval])\n        )",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "DELETE latency heatmap",
+          "tooltip": {
+            "msResolution": true,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "transformations": [],
+          "transparent": false,
+          "type": "heatmap-new",
+          "xAxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "xBucketNumber": null,
+          "xBucketSize": null,
+          "yAxis": {
+            "decimals": 1,
+            "format": "none",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          "yBucketBound": "upper",
+          "yBucketNumber": null,
+          "yBucketSize": null
+        },
+        {
+          "cacheTimeout": null,
+          "cards": {
+            "cardPadding": null,
+            "cardRound": null
+          },
+          "color": {
+            "cardColor": "#b4ff00",
+            "colorScale": "sqrt",
+            "colorScheme": "interpolateSpectral",
+            "exponent": 0.5,
+            "max": null,
+            "min": null,
+            "mode": "spectrum"
+          },
+          "dataFormat": "tsbuckets",
+          "datasource": "${DS_TEST-CLUSTER}",
+          "description": "Latency distribution for TRUNCATE operations",
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "scheme",
+                "scheme": "Cool"
+              },
+              "custom": {
+                "scaleDistribution": {
+                  "log": 10,
+                  "type": "log"
+                }
+              },
+              "noValue": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "transparent",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "ms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 42
+          },
+          "heatmap": {},
+          "height": null,
+          "hideTimeOverride": false,
+          "hideZeroBuckets": true,
+          "highlightCards": true,
+          "id": 25,
+          "interval": null,
+          "legend": {
+            "show": false
+          },
+          "links": [],
+          "maxDataPoints": 512,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "calculate": false,
+            "calculation": {
+              "xBuckets": {
+                "mode": "size",
+                "value": "auto"
+              },
+              "yBuckets": {
+                "mode": "size",
+                "value": "auto"
+              }
+            },
+            "cellGap": 1,
+            "color": {
+              "exponent": 0.5,
+              "fill": "dark-orange",
+              "mode": "scheme",
+              "scale": "exponential",
+              "scheme": "Cool",
+              "steps": 128
+            },
+            "exemplars": {
+              "color": "rgba(255,0,255,0.7)"
+            },
+            "filterValues": {
+              "le": 1e-09
+            },
+            "rowsFrame": {
+              "layout": "auto"
+            },
+            "tooltip": {
+              "show": true,
+              "yHistogram": false
+            },
+            "yAxis": {
+              "axisPlacement": "left",
+              "reverse": false,
+              "unit": "ms"
+            }
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "reverseYBuckets": false,
+          "span": null,
+          "targets": [
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"TRUNCATE\"}[$__rate_interval])\n        )",
+              "format": "heatmap",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "{{le}}",
+              "metric": "",
+              "query": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"TRUNCATE\"}[$__rate_interval])\n        )",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "TRUNCATE latency heatmap",
+          "tooltip": {
+            "msResolution": true,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "transformations": [],
+          "transparent": false,
+          "type": "heatmap-new",
+          "xAxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "xBucketNumber": null,
+          "xBucketSize": null,
+          "yAxis": {
+            "decimals": 1,
+            "format": "none",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          "yBucketBound": "upper",
+          "yBucketNumber": null,
+          "yBucketSize": null
+        },
+        {
+          "cacheTimeout": null,
+          "cards": {
+            "cardPadding": null,
+            "cardRound": null
+          },
+          "color": {
+            "cardColor": "#b4ff00",
+            "colorScale": "sqrt",
+            "colorScheme": "interpolateSpectral",
+            "exponent": 0.5,
+            "max": null,
+            "min": null,
+            "mode": "spectrum"
+          },
+          "dataFormat": "tsbuckets",
+          "datasource": "${DS_TEST-CLUSTER}",
+          "description": "Latency distribution for RECALL operations",
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "scheme",
+                "scheme": "Cool"
+              },
+              "custom": {
+                "scaleDistribution": {
+                  "log": 10,
+                  "type": "log"
+                }
+              },
+              "noValue": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "transparent",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "ms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 42
+          },
+          "heatmap": {},
+          "height": null,
+          "hideTimeOverride": false,
+          "hideZeroBuckets": true,
+          "highlightCards": true,
+          "id": 26,
+          "interval": null,
+          "legend": {
+            "show": false
+          },
+          "links": [],
+          "maxDataPoints": 512,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "calculate": false,
+            "calculation": {
+              "xBuckets": {
+                "mode": "size",
+                "value": "auto"
+              },
+              "yBuckets": {
+                "mode": "size",
+                "value": "auto"
+              }
+            },
+            "cellGap": 1,
+            "color": {
+              "exponent": 0.5,
+              "fill": "dark-orange",
+              "mode": "scheme",
+              "scale": "exponential",
+              "scheme": "Cool",
+              "steps": 128
+            },
+            "exemplars": {
+              "color": "rgba(255,0,255,0.7)"
+            },
+            "filterValues": {
+              "le": 1e-09
+            },
+            "rowsFrame": {
+              "layout": "auto"
+            },
+            "tooltip": {
+              "show": true,
+              "yHistogram": false
+            },
+            "yAxis": {
+              "axisPlacement": "left",
+              "reverse": false,
+              "unit": "ms"
+            }
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "reverseYBuckets": false,
+          "span": null,
+          "targets": [
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"RECALL\"}[$__rate_interval])\n        )",
+              "format": "heatmap",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "{{le}}",
+              "metric": "",
+              "query": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"RECALL\"}[$__rate_interval])\n        )",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "RECALL latency heatmap",
+          "tooltip": {
+            "msResolution": true,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "transformations": [],
+          "transparent": false,
+          "type": "heatmap-new",
+          "xAxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "xBucketNumber": null,
+          "xBucketSize": null,
+          "yAxis": {
+            "decimals": 1,
+            "format": "none",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          "yBucketBound": "upper",
+          "yBucketNumber": null,
+          "yBucketSize": null
+        },
+        {
+          "cacheTimeout": null,
+          "cards": {
+            "cardPadding": null,
+            "cardRound": null
+          },
+          "color": {
+            "cardColor": "#b4ff00",
+            "colorScale": "sqrt",
+            "colorScheme": "interpolateSpectral",
+            "exponent": 0.5,
+            "max": null,
+            "min": null,
+            "mode": "spectrum"
+          },
+          "dataFormat": "tsbuckets",
+          "datasource": "${DS_TEST-CLUSTER}",
+          "description": "Latency distribution for SETATTR operations",
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "scheme",
+                "scheme": "Cool"
+              },
+              "custom": {
+                "scaleDistribution": {
+                  "log": 10,
+                  "type": "log"
+                }
+              },
+              "noValue": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "transparent",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "ms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 49
+          },
+          "heatmap": {},
+          "height": null,
+          "hideTimeOverride": false,
+          "hideZeroBuckets": true,
+          "highlightCards": true,
+          "id": 27,
+          "interval": null,
+          "legend": {
+            "show": false
+          },
+          "links": [],
+          "maxDataPoints": 512,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "calculate": false,
+            "calculation": {
+              "xBuckets": {
+                "mode": "size",
+                "value": "auto"
+              },
+              "yBuckets": {
+                "mode": "size",
+                "value": "auto"
+              }
+            },
+            "cellGap": 1,
+            "color": {
+              "exponent": 0.5,
+              "fill": "dark-orange",
+              "mode": "scheme",
+              "scale": "exponential",
+              "scheme": "Cool",
+              "steps": 128
+            },
+            "exemplars": {
+              "color": "rgba(255,0,255,0.7)"
+            },
+            "filterValues": {
+              "le": 1e-09
+            },
+            "rowsFrame": {
+              "layout": "auto"
+            },
+            "tooltip": {
+              "show": true,
+              "yHistogram": false
+            },
+            "yAxis": {
+              "axisPlacement": "left",
+              "reverse": false,
+              "unit": "ms"
+            }
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "reverseYBuckets": false,
+          "span": null,
+          "targets": [
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"SETATTR\"}[$__rate_interval])\n        )",
+              "format": "heatmap",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "{{le}}",
+              "metric": "",
+              "query": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"SETATTR\"}[$__rate_interval])\n        )",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "SETATTR latency heatmap",
+          "tooltip": {
+            "msResolution": true,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "transformations": [],
+          "transparent": false,
+          "type": "heatmap-new",
+          "xAxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "xBucketNumber": null,
+          "xBucketSize": null,
+          "yAxis": {
+            "decimals": 1,
+            "format": "none",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          "yBucketBound": "upper",
+          "yBucketNumber": null,
+          "yBucketSize": null
+        },
+        {
+          "cacheTimeout": null,
+          "cards": {
+            "cardPadding": null,
+            "cardRound": null
+          },
+          "color": {
+            "cardColor": "#b4ff00",
+            "colorScale": "sqrt",
+            "colorScheme": "interpolateSpectral",
+            "exponent": 0.5,
+            "max": null,
+            "min": null,
+            "mode": "spectrum"
+          },
+          "dataFormat": "tsbuckets",
+          "datasource": "${DS_TEST-CLUSTER}",
+          "description": "Latency distribution for GETATTR operations",
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "scheme",
+                "scheme": "Cool"
+              },
+              "custom": {
+                "scaleDistribution": {
+                  "log": 10,
+                  "type": "log"
+                }
+              },
+              "noValue": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "transparent",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "ms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 49
+          },
+          "heatmap": {},
+          "height": null,
+          "hideTimeOverride": false,
+          "hideZeroBuckets": true,
+          "highlightCards": true,
+          "id": 28,
+          "interval": null,
+          "legend": {
+            "show": false
+          },
+          "links": [],
+          "maxDataPoints": 512,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "calculate": false,
+            "calculation": {
+              "xBuckets": {
+                "mode": "size",
+                "value": "auto"
+              },
+              "yBuckets": {
+                "mode": "size",
+                "value": "auto"
+              }
+            },
+            "cellGap": 1,
+            "color": {
+              "exponent": 0.5,
+              "fill": "dark-orange",
+              "mode": "scheme",
+              "scale": "exponential",
+              "scheme": "Cool",
+              "steps": 128
+            },
+            "exemplars": {
+              "color": "rgba(255,0,255,0.7)"
+            },
+            "filterValues": {
+              "le": 1e-09
+            },
+            "rowsFrame": {
+              "layout": "auto"
+            },
+            "tooltip": {
+              "show": true,
+              "yHistogram": false
+            },
+            "yAxis": {
+              "axisPlacement": "left",
+              "reverse": false,
+              "unit": "ms"
+            }
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "reverseYBuckets": false,
+          "span": null,
+          "targets": [
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"GETATTR\"}[$__rate_interval])\n        )",
+              "format": "heatmap",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "{{le}}",
+              "metric": "",
+              "query": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_response_duration_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"GETATTR\"}[$__rate_interval])\n        )",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "GETATTR latency heatmap",
+          "tooltip": {
+            "msResolution": true,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "transformations": [],
+          "transparent": false,
+          "type": "heatmap-new",
+          "xAxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "xBucketNumber": null,
+          "xBucketSize": null,
+          "yAxis": {
+            "decimals": 1,
+            "format": "none",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          "yBucketBound": "upper",
+          "yBucketNumber": null,
+          "yBucketSize": null
+        }
+      ],
+      "repeat": null,
+      "repeatDirection": null,
+      "span": null,
+      "targets": [],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Latency Distribution",
+      "transformations": [],
+      "transparent": false,
+      "type": "row"
+    },
+    {
+      "cacheTimeout": null,
+      "collapsed": true,
+      "datasource": null,
+      "description": null,
+      "editable": true,
+      "error": false,
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": []
+          }
+        }
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "height": null,
+      "hideTimeOverride": false,
+      "id": 29,
+      "interval": null,
+      "links": [],
+      "maxDataPoints": 100,
+      "maxPerRow": null,
+      "minSpan": null,
+      "panels": [
+        {
+          "cacheTimeout": null,
+          "datasource": null,
+          "description": null,
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              }
+            }
+          },
+          "gridPos": {
+            "h": 1,
+            "w": 12,
+            "x": 0,
+            "y": 0
+          },
+          "height": null,
+          "hideTimeOverride": false,
+          "id": 30,
+          "interval": null,
+          "links": [],
+          "maxDataPoints": 100,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "content": "",
+            "mode": "markdown"
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "span": null,
+          "targets": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Reads",
+          "transformations": [],
+          "transparent": false,
+          "type": "text"
+        },
+        {
+          "cacheTimeout": null,
+          "datasource": null,
+          "description": null,
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              }
+            }
+          },
+          "gridPos": {
+            "h": 1,
+            "w": 12,
+            "x": 12,
+            "y": 0
+          },
+          "height": null,
+          "hideTimeOverride": false,
+          "id": 31,
+          "interval": null,
+          "links": [],
+          "maxDataPoints": 100,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "content": "",
+            "mode": "markdown"
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "span": null,
+          "targets": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Writes",
+          "transformations": [],
+          "transparent": false,
+          "type": "text"
+        },
+        {
+          "cacheTimeout": null,
+          "cards": {
+            "cardPadding": null,
+            "cardRound": null
+          },
+          "color": {
+            "cardColor": "#b4ff00",
+            "colorScale": "sqrt",
+            "colorScheme": "interpolateSpectral",
+            "exponent": 0.5,
+            "max": null,
+            "min": null,
+            "mode": "spectrum"
+          },
+          "dataFormat": "tsbuckets",
+          "datasource": "${DS_TEST-CLUSTER}",
+          "description": "READ request size distribution",
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "scheme",
+                "scheme": "Cool"
+              },
+              "custom": {
+                "scaleDistribution": {
+                  "log": 10,
+                  "type": "log"
+                }
+              },
+              "noValue": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "transparent",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "bytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 1
+          },
+          "heatmap": {},
+          "height": null,
+          "hideTimeOverride": false,
+          "hideZeroBuckets": true,
+          "highlightCards": true,
+          "id": 32,
+          "interval": null,
+          "legend": {
+            "show": false
+          },
+          "links": [],
+          "maxDataPoints": 512,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "calculate": false,
+            "calculation": {
+              "xBuckets": {
+                "mode": "size",
+                "value": "auto"
+              },
+              "yBuckets": {
+                "mode": "size",
+                "value": "auto"
+              }
+            },
+            "cellGap": 1,
+            "color": {
+              "exponent": 0.5,
+              "fill": "dark-orange",
+              "mode": "scheme",
+              "scale": "exponential",
+              "scheme": "Cool",
+              "steps": 128
+            },
+            "exemplars": {
+              "color": "rgba(255,0,255,0.7)"
+            },
+            "filterValues": {
+              "le": 1e-09
+            },
+            "rowsFrame": {
+              "layout": "auto"
+            },
+            "tooltip": {
+              "show": true,
+              "yHistogram": false
+            },
+            "yAxis": {
+              "axisPlacement": "left",
+              "reverse": false,
+              "unit": "bytes"
+            }
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "reverseYBuckets": false,
+          "span": null,
+          "targets": [
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_request_size_bytes_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"PREAD\"}[$__rate_interval])\n        )",
+              "format": "heatmap",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "{{le}}",
+              "metric": "",
+              "query": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_request_size_bytes_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"PREAD\"}[$__rate_interval])\n        )",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Read request size heatmap",
+          "tooltip": {
+            "msResolution": true,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "transformations": [],
+          "transparent": false,
+          "type": "heatmap-new",
+          "xAxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "xBucketNumber": null,
+          "xBucketSize": null,
+          "yAxis": {
+            "decimals": 1,
+            "format": "none",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          "yBucketBound": "upper",
+          "yBucketNumber": null,
+          "yBucketSize": null
+        },
+        {
+          "cacheTimeout": null,
+          "cards": {
+            "cardPadding": null,
+            "cardRound": null
+          },
+          "color": {
+            "cardColor": "#b4ff00",
+            "colorScale": "sqrt",
+            "colorScheme": "interpolateSpectral",
+            "exponent": 0.5,
+            "max": null,
+            "min": null,
+            "mode": "spectrum"
+          },
+          "dataFormat": "tsbuckets",
+          "datasource": "${DS_TEST-CLUSTER}",
+          "description": "WRITE request size distribution",
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "scheme",
+                "scheme": "Cool"
+              },
+              "custom": {
+                "scaleDistribution": {
+                  "log": 10,
+                  "type": "log"
+                }
+              },
+              "noValue": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "transparent",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "bytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 1
+          },
+          "heatmap": {},
+          "height": null,
+          "hideTimeOverride": false,
+          "hideZeroBuckets": true,
+          "highlightCards": true,
+          "id": 33,
+          "interval": null,
+          "legend": {
+            "show": false
+          },
+          "links": [],
+          "maxDataPoints": 512,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "calculate": false,
+            "calculation": {
+              "xBuckets": {
+                "mode": "size",
+                "value": "auto"
+              },
+              "yBuckets": {
+                "mode": "size",
+                "value": "auto"
+              }
+            },
+            "cellGap": 1,
+            "color": {
+              "exponent": 0.5,
+              "fill": "dark-orange",
+              "mode": "scheme",
+              "scale": "exponential",
+              "scheme": "Cool",
+              "steps": 128
+            },
+            "exemplars": {
+              "color": "rgba(255,0,255,0.7)"
+            },
+            "filterValues": {
+              "le": 1e-09
+            },
+            "rowsFrame": {
+              "layout": "auto"
+            },
+            "tooltip": {
+              "show": true,
+              "yHistogram": false
+            },
+            "yAxis": {
+              "axisPlacement": "left",
+              "reverse": false,
+              "unit": "bytes"
+            }
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "reverseYBuckets": false,
+          "span": null,
+          "targets": [
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_request_size_bytes_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"WRITE\"}[$__rate_interval])\n        )",
+              "format": "heatmap",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "{{le}}",
+              "metric": "",
+              "query": "sum without(instance, sfs_hostname) (\n            rate(sfs_hdfs_rpc_request_size_bytes_bucket{sfs_hostname=~\"$cluster-.*\", hdfs_nsid=\"$nsid\", method=\"WRITE\"}[$__rate_interval])\n        )",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Write request size heatmap",
+          "tooltip": {
+            "msResolution": true,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "transformations": [],
+          "transparent": false,
+          "type": "heatmap-new",
+          "xAxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "xBucketNumber": null,
+          "xBucketSize": null,
+          "yAxis": {
+            "decimals": 1,
+            "format": "none",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          "yBucketBound": "upper",
+          "yBucketNumber": null,
+          "yBucketSize": null
+        }
+      ],
+      "repeat": null,
+      "repeatDirection": null,
+      "span": null,
+      "targets": [],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Request/response sizes",
+      "transformations": [],
+      "transparent": false,
+      "type": "row"
+    }
+  ],
+  "refresh": "5s",
+  "rows": [],
+  "schemaVersion": 14,
+  "sharedCrosshair": false,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "auto": false,
+        "auto_count": 30,
+        "auto_min": "10s",
+        "current": {
+          "selected": false,
+          "tags": [],
+          "text": null,
+          "value": null
+        },
+        "datasource": "${DS_TEST-CLUSTER}",
+        "hide": 2,
+        "includeAll": false,
+        "label": "DS_VICTORIAMETRICS",
+        "multi": false,
+        "name": "DS_VICTORIAMETRICS",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 2,
+        "regex": null,
+        "sort": 1,
+        "tagValuesQuery": null,
+        "tagsQuery": null,
+        "type": "datasource",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "auto": false,
+        "auto_count": 30,
+        "auto_min": "10s",
+        "current": {
+          "selected": false,
+          "tags": [],
+          "text": null,
+          "value": null
+        },
+        "datasource": "${DS_TEST-CLUSTER}",
+        "hide": 0,
+        "includeAll": false,
+        "label": "cluster",
+        "multi": false,
+        "name": "cluster",
+        "options": [],
+        "query": "label_values({__name__=~\"sfs_hdfs_rpc_response_duration_count\"}, sfs_hostname)",
+        "refresh": 2,
+        "regex": "/(.*)-[^-]*$/",
+        "sort": 1,
+        "tagValuesQuery": null,
+        "tagsQuery": null,
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "auto": false,
+        "auto_count": 30,
+        "auto_min": "10s",
+        "current": {
+          "selected": false,
+          "tags": [],
+          "text": null,
+          "value": null
+        },
+        "datasource": "${DS_TEST-CLUSTER}",
+        "hide": 0,
+        "includeAll": false,
+        "label": "nsid",
+        "multi": false,
+        "name": "nsid",
+        "options": [],
+        "query": "label_values({__name__=~\"sfs_hdfs_rpc_response_duration_count\", sfs_hostname=~\"$cluster-.*\"}, hdfs_nsid)",
+        "refresh": 2,
+        "regex": null,
+        "sort": 1,
+        "tagValuesQuery": null,
+        "tagsQuery": null,
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {
+    "hidden": false,
+    "nowDelay": null,
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "browser",
+  "title": "SFS - HDFS Client",
+  "uid": null,
+  "version": 0
+}
