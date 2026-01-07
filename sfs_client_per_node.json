@@ -6163,15 +6163,15 @@
           "targets": [
             {
               "datasource": "${DS_TEST-CLUSTER}",
-              "expr": "sfs_table_cache_valume_count {cluster=\"$cluster\",job=\"sfs-client\",instance=\"$node\"}",
+              "expr": "sfs_table_cache_dir_count {cluster=\"$cluster\",job=\"sfs-client\",instance=\"$node\"}",
               "format": "time_series",
               "hide": false,
               "instant": false,
               "interval": "",
               "intervalFactor": 1,
-              "legendFormat": "TABLE_CACHE_FILE_COUNT",
+              "legendFormat": "Table Cache Dir Count",
               "metric": "",
-              "query": "sfs_table_cache_valume_count {cluster=\"$cluster\",job=\"sfs-client\",instance=\"$node\"}",
+              "query": "sfs_table_cache_dir_count {cluster=\"$cluster\",job=\"sfs-client\",instance=\"$node\"}",
               "refId": "",
               "step": 10,
               "target": ""
@@ -6179,7 +6179,7 @@
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "TABLE_CACHE_FILE_COUNT",
+          "title": "Table Cache Dir Count",
           "transformations": [],
           "transparent": false,
           "type": "timeseries"
@@ -6269,15 +6269,15 @@
           "targets": [
             {
               "datasource": "${DS_TEST-CLUSTER}",
-              "expr": "sfs_table_cache_dir_count {cluster=\"$cluster\",job=\"sfs-client\",instance=\"$node\"}",
+              "expr": "sfs_table_cache_file_count {cluster=\"$cluster\",job=\"sfs-client\",instance=\"$node\"}",
               "format": "time_series",
               "hide": false,
               "instant": false,
               "interval": "",
               "intervalFactor": 1,
-              "legendFormat": "Table Cache Dir Count",
+              "legendFormat": "Table Cache File Count",
               "metric": "",
-              "query": "sfs_table_cache_dir_count {cluster=\"$cluster\",job=\"sfs-client\",instance=\"$node\"}",
+              "query": "sfs_table_cache_file_count {cluster=\"$cluster\",job=\"sfs-client\",instance=\"$node\"}",
               "refId": "",
               "step": 10,
               "target": ""
@@ -6285,7 +6285,7 @@
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Table Cache Dir Count",
+          "title": "Table Cache File Count",
           "transformations": [],
           "transparent": false,
           "type": "timeseries"
@@ -6381,9 +6381,24 @@
               "instant": false,
               "interval": "",
               "intervalFactor": 1,
-              "legendFormat": "Pretch dir size rate",
+              "legendFormat": "Success",
               "metric": "",
               "query": "rate( sfs_prefetch_dir_size_count {cluster=\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\"} [$__rate_interval] )",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            },
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "rate( sfs_prefetch_dir_failure_count {cluster=\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\"} [$__rate_interval] )",
+              "format": "time_series",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Failure",
+              "metric": "",
+              "query": "rate( sfs_prefetch_dir_failure_count {cluster=\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\"} [$__rate_interval] )",
               "refId": "",
               "step": 10,
               "target": ""
@@ -6391,7 +6406,7 @@
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Pretch dir size rate",
+          "title": "Prefetch Dir Operation Rate",
           "transformations": [],
           "transparent": false,
           "type": "timeseries"
@@ -6481,15 +6496,30 @@
           "targets": [
             {
               "datasource": "${DS_TEST-CLUSTER}",
-              "expr": "rate( sfs_prefetch_file_size_kbytes_count {cluster=\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\"} [$__rate_interval] )",
+              "expr": "rate( sfs_rpc_requests_count_total {cluster=\"$cluster\",rpc_nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\",method=\"READDIR\"} [$__rate_interval] )",
               "format": "time_series",
               "hide": false,
               "instant": false,
               "interval": "",
               "intervalFactor": 1,
-              "legendFormat": "Pretch File Size kbytes rate",
+              "legendFormat": "Success",
               "metric": "",
-              "query": "rate( sfs_prefetch_file_size_kbytes_count {cluster=\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\"} [$__rate_interval] )",
+              "query": "rate( sfs_rpc_requests_count_total {cluster=\"$cluster\",rpc_nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\",method=\"READDIR\"} [$__rate_interval] )",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            },
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "rate( sfs_prefetch_file_failure_count_total {cluster=\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\"} [$__rate_interval] )",
+              "format": "time_series",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Failure",
+              "metric": "",
+              "query": "rate( sfs_prefetch_file_failure_count_total {cluster=\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\"} [$__rate_interval] )",
               "refId": "",
               "step": 10,
               "target": ""
@@ -6497,7 +6527,7 @@
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Pretch File Size kbytes rate",
+          "title": "Prefetch File Operation Rate",
           "transformations": [],
           "transparent": false,
           "type": "timeseries"
@@ -6907,7 +6937,7 @@
           "targets": [
             {
               "datasource": "${DS_TEST-CLUSTER}",
-              "expr": "rate( sfs_prefetch_read_hit_count_total {cluster=\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\"} [$__rate_interval] )",
+              "expr": "rate( sfs_read_hit_count_total {cluster=\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\"} [$__rate_interval] )",
               "format": "time_series",
               "hide": false,
               "instant": false,
@@ -6915,14 +6945,14 @@
               "intervalFactor": 1,
               "legendFormat": "Hit",
               "metric": "",
-              "query": "rate( sfs_prefetch_read_hit_count_total {cluster=\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\"} [$__rate_interval] )",
+              "query": "rate( sfs_read_hit_count_total {cluster=\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\"} [$__rate_interval] )",
               "refId": "",
               "step": 10,
               "target": ""
             },
             {
               "datasource": "${DS_TEST-CLUSTER}",
-              "expr": "rate( sfs_prefetch_read_miss_count_total {cluster=\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\"} [$__rate_interval] )",
+              "expr": "rate( sfs_read_miss_count_total {cluster=\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\"} [$__rate_interval] )",
               "format": "time_series",
               "hide": false,
               "instant": false,
@@ -6930,7 +6960,22 @@
               "intervalFactor": 1,
               "legendFormat": "Miss",
               "metric": "",
-              "query": "rate( sfs_prefetch_read_miss_count_total {cluster=\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\"} [$__rate_interval] )",
+              "query": "rate( sfs_read_miss_count_total {cluster=\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\"} [$__rate_interval] )",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            },
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "rate( sfs_read_interference_count_total {cluster=\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\"} [$__rate_interval] )",
+              "format": "time_series",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Interference",
+              "metric": "",
+              "query": "rate( sfs_read_interference_count_total {cluster=\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\"} [$__rate_interval] )",
               "refId": "",
               "step": 10,
               "target": ""
@@ -6938,7 +6983,7 @@
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Read Hit/Miss",
+          "title": "Read Hit/Miss/Interference",
           "transformations": [],
           "transparent": false,
           "type": "timeseries"
@@ -6990,7 +7035,7 @@
                 "mode": "absolute",
                 "steps": []
               },
-              "unit": "percent"
+              "unit": "ops"
             },
             "overrides": []
           },
@@ -7028,15 +7073,30 @@
           "targets": [
             {
               "datasource": "${DS_TEST-CLUSTER}",
-              "expr": "(rate( sfs_prefetch_read_hit_count_total {cluster=\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\"} [$__rate_interval] ) / (rate( sfs_prefetch_read_hit_count_total {cluster=\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\"} [$__rate_interval] ) + rate( sfs_prefetch_read_miss_count_total {cluster=\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\"} [$__rate_interval] )) * 100)",
+              "expr": "rate( sfs_read_full_count_total {cluster=\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\"} [$__rate_interval] )",
               "format": "time_series",
               "hide": false,
               "instant": false,
               "interval": "",
               "intervalFactor": 1,
-              "legendFormat": "Read Hit Ratio",
+              "legendFormat": "Read Full",
               "metric": "",
-              "query": "(rate( sfs_prefetch_read_hit_count_total {cluster=\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\"} [$__rate_interval] ) / (rate( sfs_prefetch_read_hit_count_total {cluster=\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\"} [$__rate_interval] ) + rate( sfs_prefetch_read_miss_count_total {cluster=\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\"} [$__rate_interval] )) * 100)",
+              "query": "rate( sfs_read_full_count_total {cluster=\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\"} [$__rate_interval] )",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            },
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "rate( sfs_rpc_requests_count_total {cluster=\"$cluster\",rpc_nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\",method=\"READ\"} [$__rate_interval] )",
+              "format": "time_series",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Read All",
+              "metric": "",
+              "query": "rate( sfs_rpc_requests_count_total {cluster=\"$cluster\",rpc_nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\",method=\"READ\"} [$__rate_interval] )",
               "refId": "",
               "step": 10,
               "target": ""
@@ -7044,7 +7104,219 @@
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Read Hit ratio",
+          "title": "Read Full Rpcs & Read All Rpcs",
+          "transformations": [],
+          "transparent": false,
+          "type": "timeseries"
+        },
+        {
+          "cacheTimeout": null,
+          "datasource": "${DS_TEST-CLUSTER}",
+          "description": null,
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "axisSoftMax": null,
+                "axisSoftMin": null,
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 10,
+                "gradientMode": "opacity",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "log": 2,
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {},
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": null,
+              "mappings": [],
+              "max": null,
+              "min": null,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": "ms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 35
+          },
+          "height": null,
+          "hideTimeOverride": false,
+          "id": 59,
+          "interval": null,
+          "links": [],
+          "maxDataPoints": null,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "legend": {
+              "calcs": [
+                "max",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "right"
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "span": null,
+          "targets": [
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "(rate( sfs_prefetch_flow_control_duration_sum {cluster=\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\"} [$__rate_interval] ) / rate( sfs_prefetch_flow_control_duration_count {cluster=\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\"} [$__rate_interval] ))",
+              "format": "time_series",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "shard_id={{shard_id}}",
+              "metric": "",
+              "query": "(rate( sfs_prefetch_flow_control_duration_sum {cluster=\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\"} [$__rate_interval] ) / rate( sfs_prefetch_flow_control_duration_count {cluster=\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\"} [$__rate_interval] ))",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Flowctrl Latency",
+          "transformations": [],
+          "transparent": false,
+          "type": "timeseries"
+        },
+        {
+          "cacheTimeout": null,
+          "datasource": "${DS_TEST-CLUSTER}",
+          "description": null,
+          "editable": true,
+          "error": false,
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "axisSoftMax": null,
+                "axisSoftMin": null,
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 10,
+                "gradientMode": "opacity",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "log": 2,
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {},
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": null,
+              "mappings": [],
+              "max": null,
+              "min": null,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 35
+          },
+          "height": null,
+          "hideTimeOverride": false,
+          "id": 60,
+          "interval": null,
+          "links": [],
+          "maxDataPoints": null,
+          "maxPerRow": null,
+          "minSpan": null,
+          "options": {
+            "legend": {
+              "calcs": [
+                "max",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "right"
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "repeat": null,
+          "repeatDirection": null,
+          "span": null,
+          "targets": [
+            {
+              "datasource": "${DS_TEST-CLUSTER}",
+              "expr": "sum( sfs_prefetch_flow_control_inflight_count {cluster=\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\"} ) by (shard_id)",
+              "format": "time_series",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "shard_id={{shard_id}}",
+              "metric": "",
+              "query": "sum( sfs_prefetch_flow_control_inflight_count {cluster=\"$cluster\",nsid=\"$nsid\",job=\"sfs-client\",instance=\"$node\"} ) by (shard_id)",
+              "refId": "",
+              "step": 10,
+              "target": ""
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Flowctrl Inflight",
           "transformations": [],
           "transparent": false,
           "type": "timeseries"
