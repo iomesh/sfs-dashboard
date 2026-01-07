@@ -1,14 +1,5 @@
 {
-  "__inputs": [
-    {
-      "description": "",
-      "label": "test-cluster",
-      "name": "DS_TEST-CLUSTER",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus",
-      "type": "datasource"
-    }
-  ],
+  "__inputs": [],
   "annotations": {
     "list": []
   },
@@ -52,7 +43,7 @@
       "panels": [
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -134,7 +125,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "label_replace(rate( sfs_rpc_request_size_bytes_count {cluster=\"$cluster\",instance=\"$node\",shard_id=\"$shard_id\",method=~\"^Method.*\"} [$__rate_interval] ), \"display_method\", \"$1\", \"method\", \"^Method\\\\(([^)]+)\\\\)\")",
               "format": "time_series",
               "hide": false,
@@ -149,7 +140,7 @@
               "target": ""
             },
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "(rate( uzfs_request_latency_ns_count {cluster=\"$cluster\",instance=\"$node\",shard_id=\"$shard_id\"} [$__rate_interval] ) or rate( sfs_uzfs_request_latency_ns_count {cluster=\"$cluster\",instance=\"$node\",shard_id=\"$shard_id\"} [$__rate_interval] ))",
               "format": "time_series",
               "hide": false,
@@ -173,7 +164,7 @@
         },
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -255,7 +246,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "label_replace((sum( rate( sfs_rpc_response_duration_sum {cluster=\"$cluster\",instance=\"$node\",shard_id=\"$shard_id\",method=~\"^Method.*\"} [$__rate_interval] ) ) by (method) / sum( rate( sfs_rpc_response_duration_count {cluster=\"$cluster\",instance=\"$node\",shard_id=\"$shard_id\",method=~\"^Method.*\"} [$__rate_interval] ) ) by (method)), \"display_method\", \"$1\", \"method\", \"^Method\\\\(([^)]+)\\\\)\")",
               "format": "time_series",
               "hide": false,
@@ -270,7 +261,7 @@
               "target": ""
             },
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "(((sum( rate( uzfs_request_latency_ns_sum {cluster=\"$cluster\",instance=\"$node\",shard_id=\"$shard_id\"} [$__rate_interval] ) ) by (method) / sum( rate( uzfs_request_latency_ns_count {cluster=\"$cluster\",instance=\"$node\",shard_id=\"$shard_id\"} [$__rate_interval] ) ) by (method)) / 1000000) or ((sum( rate( sfs_uzfs_request_latency_ns_sum {cluster=\"$cluster\",instance=\"$node\",shard_id=\"$shard_id\"} [$__rate_interval] ) ) by (method) / sum( rate( sfs_uzfs_request_latency_ns_count {cluster=\"$cluster\",instance=\"$node\",shard_id=\"$shard_id\"} [$__rate_interval] ) ) by (method)) / 1000000))",
               "format": "time_series",
               "hide": false,
@@ -294,7 +285,7 @@
         },
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -376,7 +367,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum( sfs_rpc_inflight_count {cluster=\"$cluster\",instance=\"$node\",shard_id=\"$shard_id\"} ) by (instance)",
               "format": "time_series",
               "hide": false,
@@ -391,7 +382,7 @@
               "target": ""
             },
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "(sum( uzfs_request_concurrency {cluster=\"$cluster\",instance=\"$node\",shard_id=\"$shard_id\"} ) by (instance) or sum( sfs_uzfs_request_concurrency {cluster=\"$cluster\",instance=\"$node\",shard_id=\"$shard_id\"} ) by (instance))",
               "format": "time_series",
               "hide": false,
@@ -457,7 +448,7 @@
       "panels": [
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -539,7 +530,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "label_replace(histogram_quantile(0.01, sum by (method, le) (rate(sfs_rpc_response_duration_bucket{instance=\"$node\", shard_id=\"$shard_id\", method=~\"^Method.*\"}[$__rate_interval]))), \"display_method\", \"$1\", \"method\", \"^Method\\\\(([^)]+)\\\\)\")",
               "format": "time_series",
               "hide": false,
@@ -563,7 +554,7 @@
         },
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -645,7 +636,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "label_replace(histogram_quantile(0.9, sum by (method, le) (rate(sfs_rpc_response_duration_bucket{instance=\"$node\", shard_id=\"$shard_id\", method=~\"^Method.*\"}[$__rate_interval]))), \"display_method\", \"$1\", \"method\", \"^Method\\\\(([^)]+)\\\\)\")",
               "format": "time_series",
               "hide": false,
@@ -669,7 +660,7 @@
         },
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -751,7 +742,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "label_replace(histogram_quantile(0.5, sum by (method, le) (rate(sfs_rpc_response_duration_bucket{instance=\"$node\", shard_id=\"$shard_id\", method=~\"^Method.*\"}[$__rate_interval]))), \"display_method\", \"$1\", \"method\", \"^Method\\\\(([^)]+)\\\\)\")",
               "format": "time_series",
               "hide": false,
@@ -775,7 +766,7 @@
         },
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -857,7 +848,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "label_replace(histogram_quantile(0.95, sum by (method, le) (rate(sfs_rpc_response_duration_bucket{instance=\"$node\", shard_id=\"$shard_id\", method=~\"^Method.*\"}[$__rate_interval]))), \"display_method\", \"$1\", \"method\", \"^Method\\\\(([^)]+)\\\\)\")",
               "format": "time_series",
               "hide": false,
@@ -937,7 +928,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "Latency distribution for ReadObject operations",
           "editable": true,
           "error": false,
@@ -1033,7 +1024,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_rpc_response_duration_bucket{instance=\"$node\", shard_id=\"$shard_id\", method=\"Method(ReadObject)\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -1097,7 +1088,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "Latency distribution for WriteObject operations",
           "editable": true,
           "error": false,
@@ -1193,7 +1184,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_rpc_response_duration_bucket{instance=\"$node\", shard_id=\"$shard_id\", method=\"Method(WriteObject)\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -1257,7 +1248,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "Latency distribution for CreateObjects operations",
           "editable": true,
           "error": false,
@@ -1353,7 +1344,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_rpc_response_duration_bucket{instance=\"$node\", shard_id=\"$shard_id\", method=\"Method(CreateObjects)\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -1417,7 +1408,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "Latency distribution for DeleteObjects operations",
           "editable": true,
           "error": false,
@@ -1513,7 +1504,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_rpc_response_duration_bucket{instance=\"$node\", shard_id=\"$shard_id\", method=\"Method(DeleteObjects)\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -1577,7 +1568,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "Latency distribution for TruncateObject operations",
           "editable": true,
           "error": false,
@@ -1673,7 +1664,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_rpc_response_duration_bucket{instance=\"$node\", shard_id=\"$shard_id\", method=\"Method(TruncateObject)\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -1737,7 +1728,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "Latency distribution for CommitObject operations",
           "editable": true,
           "error": false,
@@ -1833,7 +1824,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_rpc_response_duration_bucket{instance=\"$node\", shard_id=\"$shard_id\", method=\"Method(CommitObject)\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -1897,7 +1888,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "Latency distribution for SetMTime operations",
           "editable": true,
           "error": false,
@@ -1993,7 +1984,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_rpc_response_duration_bucket{instance=\"$node\", shard_id=\"$shard_id\", method=\"Method(SetMTime)\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -2057,7 +2048,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "Latency distribution for UpdateFence operations",
           "editable": true,
           "error": false,
@@ -2153,7 +2144,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_rpc_response_duration_bucket{instance=\"$node\", shard_id=\"$shard_id\", method=\"Method(UpdateFence)\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -2245,7 +2236,7 @@
       "panels": [
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -2327,7 +2318,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "(rate( sfs_process_cpu_seconds_total_total {cluster=\"$cluster\",instance=\"$node\",job=\"sfs-data\"} [$__rate_interval] ) * 100)",
               "format": "time_series",
               "hide": false,
@@ -2351,7 +2342,7 @@
         },
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -2433,7 +2424,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sfs_process_threads {cluster=\"$cluster\",instance=\"$node\",job=\"sfs-data\"}",
               "format": "time_series",
               "hide": false,
@@ -2457,7 +2448,7 @@
         },
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -2539,7 +2530,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sfs_process_virtual_memory_bytes {cluster=\"$cluster\",instance=\"$node\",job=\"sfs-data\"}",
               "format": "time_series",
               "hide": false,
@@ -2554,7 +2545,7 @@
               "target": ""
             },
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sfs_process_resident_memory_bytes {cluster=\"$cluster\",instance=\"$node\",job=\"sfs-data\"}",
               "format": "time_series",
               "hide": false,
@@ -2578,7 +2569,7 @@
         },
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -2660,7 +2651,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sfs_process_virtual_memory_mapping_size {cluster=\"$cluster\",instance=\"$node\",job=\"sfs-data\"}",
               "format": "time_series",
               "hide": false,
@@ -2684,7 +2675,7 @@
         },
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -2766,7 +2757,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sfs_process_max_fds {cluster=\"$cluster\",instance=\"$node\",job=\"sfs-data\"}",
               "format": "time_series",
               "hide": false,
@@ -2781,7 +2772,7 @@
               "target": ""
             },
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sfs_process_open_fds {cluster=\"$cluster\",instance=\"$node\",job=\"sfs-data\"}",
               "format": "time_series",
               "hide": false,
@@ -2805,7 +2796,7 @@
         },
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -2887,7 +2878,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "(time() - sfs_process_start_time_seconds {cluster=\"$cluster\",instance=\"$node\",job=\"sfs-data\"})",
               "format": "time_series",
               "hide": false,
@@ -2953,7 +2944,7 @@
       "panels": [
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -3035,7 +3026,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sfs_allocated_stats {cluster=\"$cluster\",instance=\"$node\",job=\"sfs-data\"}",
               "format": "time_series",
               "hide": false,
@@ -3050,7 +3041,7 @@
               "target": ""
             },
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sfs_active_stats {cluster=\"$cluster\",instance=\"$node\",job=\"sfs-data\"}",
               "format": "time_series",
               "hide": false,
@@ -3065,7 +3056,7 @@
               "target": ""
             },
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sfs_metadata_stats {cluster=\"$cluster\",instance=\"$node\",job=\"sfs-data\"}",
               "format": "time_series",
               "hide": false,
@@ -3080,7 +3071,7 @@
               "target": ""
             },
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sfs_resident_stats {cluster=\"$cluster\",instance=\"$node\",job=\"sfs-data\"}",
               "format": "time_series",
               "hide": false,
@@ -3095,7 +3086,7 @@
               "target": ""
             },
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sfs_mapped_stats {cluster=\"$cluster\",instance=\"$node\",job=\"sfs-data\"}",
               "format": "time_series",
               "hide": false,
@@ -3110,7 +3101,7 @@
               "target": ""
             },
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sfs_retained_stats {cluster=\"$cluster\",instance=\"$node\",job=\"sfs-data\"}",
               "format": "time_series",
               "hide": false,
@@ -3125,7 +3116,7 @@
               "target": ""
             },
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sfs_dirty_stats {cluster=\"$cluster\",instance=\"$node\",job=\"sfs-data\"}",
               "format": "time_series",
               "hide": false,
@@ -3140,7 +3131,7 @@
               "target": ""
             },
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sfs_muzzy_stats {cluster=\"$cluster\",instance=\"$node\",job=\"sfs-data\"}",
               "format": "time_series",
               "hide": false,
@@ -3155,7 +3146,7 @@
               "target": ""
             },
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sfs_internal_fragmentation_stats {cluster=\"$cluster\",instance=\"$node\",job=\"sfs-data\"}",
               "format": "time_series",
               "hide": false,
@@ -3179,7 +3170,7 @@
         },
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -3261,7 +3252,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "rate( sfs_small_allocated_stats {cluster=\"$cluster\",instance=\"$node\",job=\"sfs-data\"} [$__rate_interval] )",
               "format": "time_series",
               "hide": false,
@@ -3276,7 +3267,7 @@
               "target": ""
             },
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "rate( sfs_large_allocated_stats {cluster=\"$cluster\",instance=\"$node\",job=\"sfs-data\"} [$__rate_interval] )",
               "format": "time_series",
               "hide": false,
@@ -3300,7 +3291,7 @@
         },
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -3382,7 +3373,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sfs_extent_avail_stats {cluster=\"$cluster\",instance=\"$node\",job=\"sfs-data\"}",
               "format": "time_series",
               "hide": false,
@@ -3406,7 +3397,7 @@
         },
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -3488,7 +3479,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "((sfs_internal_fragmentation_stats {cluster=\"$cluster\",instance=\"$node\",job=\"sfs-data\"} / sfs_allocated_stats {cluster=\"$cluster\",instance=\"$node\",job=\"sfs-data\"}) * 100)",
               "format": "time_series",
               "hide": false,
@@ -3503,7 +3494,7 @@
               "target": ""
             },
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sfs_fragmentation_ratio {cluster=\"$cluster\",instance=\"$node\",job=\"sfs-data\"}",
               "format": "time_series",
               "hide": false,
@@ -3518,7 +3509,7 @@
               "target": ""
             },
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sfs_rss_ratio {cluster=\"$cluster\",instance=\"$node\",job=\"sfs-data\"}",
               "format": "time_series",
               "hide": false,
@@ -3584,7 +3575,7 @@
       "panels": [
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -3666,7 +3657,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "(rate( sfs_uzfs_read_delays_sum {cluster=\"$cluster\",instance=\"$node\",shard_id=\"$shard_id\"} [$__rate_interval] ) / rate( sfs_uzfs_read_delays_count {cluster=\"$cluster\",instance=\"$node\",shard_id=\"$shard_id\"} [$__rate_interval] ))",
               "format": "time_series",
               "hide": false,
@@ -3690,7 +3681,7 @@
         },
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -3772,7 +3763,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "(rate( sfs_uzfs_txg_delays_sum {cluster=\"$cluster\",instance=\"$node\",shard_id=\"$shard_id\"} [$__rate_interval] ) / rate( sfs_uzfs_txg_delays_count {cluster=\"$cluster\",instance=\"$node\",shard_id=\"$shard_id\"} [$__rate_interval] ))",
               "format": "time_series",
               "hide": false,
@@ -3796,7 +3787,7 @@
         },
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -3878,7 +3869,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "(rate( sfs_uzfs_write_delays_sum {cluster=\"$cluster\",instance=\"$node\",shard_id=\"$shard_id\"} [$__rate_interval] ) / rate( sfs_uzfs_write_delays_count {cluster=\"$cluster\",instance=\"$node\",shard_id=\"$shard_id\"} [$__rate_interval] ))",
               "format": "time_series",
               "hide": false,
@@ -3932,7 +3923,7 @@
           "text": null,
           "value": null
         },
-        "datasource": "${DS_TEST-CLUSTER}",
+        "datasource": "",
         "hide": 2,
         "includeAll": false,
         "label": "DS_VICTORIAMETRICS",
@@ -3959,7 +3950,7 @@
           "text": null,
           "value": null
         },
-        "datasource": "${DS_TEST-CLUSTER}",
+        "datasource": "${DS_VICTORIAMETRICS}",
         "hide": 0,
         "includeAll": false,
         "label": "cluster",
@@ -3986,7 +3977,7 @@
           "text": null,
           "value": null
         },
-        "datasource": "${DS_TEST-CLUSTER}",
+        "datasource": "${DS_VICTORIAMETRICS}",
         "hide": 0,
         "includeAll": false,
         "label": "node",
@@ -4013,7 +4004,7 @@
           "text": null,
           "value": null
         },
-        "datasource": "${DS_TEST-CLUSTER}",
+        "datasource": "${DS_VICTORIAMETRICS}",
         "hide": 0,
         "includeAll": false,
         "label": "shard_id",

@@ -1,14 +1,5 @@
 {
-  "__inputs": [
-    {
-      "description": "",
-      "label": "test-cluster",
-      "name": "DS_TEST-CLUSTER",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus",
-      "type": "datasource"
-    }
-  ],
+  "__inputs": [],
   "annotations": {
     "list": []
   },
@@ -52,7 +43,7 @@
       "panels": [
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -134,7 +125,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "rate( sfs_rpc_response_duration_count {cluster=\"$cluster\",job=\"sfs-client\",rpc_nsid=\"$nsid\",instance=\"$node\"} [$__rate_interval] )",
               "format": "time_series",
               "hide": false,
@@ -158,7 +149,7 @@
         },
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -240,7 +231,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "(rate( sfs_rpc_response_duration_sum {cluster=\"$cluster\",job=\"sfs-client\",rpc_nsid=\"$nsid\",instance=\"$node\"} [$__rate_interval] ) / rate( sfs_rpc_response_duration_count {cluster=\"$cluster\",job=\"sfs-client\",rpc_nsid=\"$nsid\",instance=\"$node\"} [$__rate_interval] ))",
               "format": "time_series",
               "hide": false,
@@ -264,7 +255,7 @@
         },
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -346,7 +337,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "rate( sfs_rpc_request_size_bytes_sum {cluster=\"$cluster\",job=\"sfs-client\",rpc_nsid=\"$nsid\",instance=\"$node\",method=\"READ\"} [$__rate_interval] )",
               "format": "time_series",
               "hide": false,
@@ -361,7 +352,7 @@
               "target": ""
             },
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "rate( sfs_rpc_request_size_bytes_sum {cluster=\"$cluster\",job=\"sfs-client\",rpc_nsid=\"$nsid\",instance=\"$node\",method=\"WRITE\"} [$__rate_interval] )",
               "format": "time_series",
               "hide": false,
@@ -385,7 +376,7 @@
         },
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -467,7 +458,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum( sfs_rpc_inflight_count {cluster=\"$cluster\",job=\"sfs-client\",rpc_nsid=\"$nsid\",instance=\"$node\"} )",
               "format": "time_series",
               "hide": false,
@@ -533,7 +524,7 @@
       "panels": [
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -615,7 +606,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "histogram_quantile(0.01, sum without(sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", rpc_nsid=\"$nsid\", job=\"sfs-client\", instance=\"$node\"}[$__rate_interval])))",
               "format": "time_series",
               "hide": false,
@@ -639,7 +630,7 @@
         },
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -721,7 +712,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "histogram_quantile(0.9, sum without(sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", rpc_nsid=\"$nsid\", job=\"sfs-client\", instance=\"$node\"}[$__rate_interval])))",
               "format": "time_series",
               "hide": false,
@@ -745,7 +736,7 @@
         },
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -827,7 +818,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "histogram_quantile(0.5, sum without(sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", rpc_nsid=\"$nsid\", job=\"sfs-client\", instance=\"$node\"}[$__rate_interval])))",
               "format": "time_series",
               "hide": false,
@@ -851,7 +842,7 @@
         },
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -933,7 +924,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "histogram_quantile(0.95, sum without(sfs_hostname) (rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", rpc_nsid=\"$nsid\", job=\"sfs-client\", instance=\"$node\"}[$__rate_interval])))",
               "format": "time_series",
               "hide": false,
@@ -1013,7 +1004,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "RPC latency distribution for READ on selected node",
           "editable": true,
           "error": false,
@@ -1109,7 +1100,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", job=\"sfs-client\", rpc_nsid=\"$nsid\", instance=\"$node\", method=\"READ\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -1173,7 +1164,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "RPC latency distribution for WRITE on selected node",
           "editable": true,
           "error": false,
@@ -1269,7 +1260,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", job=\"sfs-client\", rpc_nsid=\"$nsid\", instance=\"$node\", method=\"WRITE\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -1333,7 +1324,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "RPC latency distribution for GETATTR on selected node",
           "editable": true,
           "error": false,
@@ -1429,7 +1420,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", job=\"sfs-client\", rpc_nsid=\"$nsid\", instance=\"$node\", method=\"GETATTR\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -1493,7 +1484,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "RPC latency distribution for LOOKUP on selected node",
           "editable": true,
           "error": false,
@@ -1589,7 +1580,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", job=\"sfs-client\", rpc_nsid=\"$nsid\", instance=\"$node\", method=\"LOOKUP\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -1653,7 +1644,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "RPC latency distribution for CREATE on selected node",
           "editable": true,
           "error": false,
@@ -1749,7 +1740,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", job=\"sfs-client\", rpc_nsid=\"$nsid\", instance=\"$node\", method=\"CREATE\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -1813,7 +1804,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "RPC latency distribution for MKDIR on selected node",
           "editable": true,
           "error": false,
@@ -1909,7 +1900,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", job=\"sfs-client\", rpc_nsid=\"$nsid\", instance=\"$node\", method=\"MKDIR\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -1973,7 +1964,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "RPC latency distribution for UNLINK on selected node",
           "editable": true,
           "error": false,
@@ -2069,7 +2060,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", job=\"sfs-client\", rpc_nsid=\"$nsid\", instance=\"$node\", method=\"UNLINK\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -2133,7 +2124,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "RPC latency distribution for RMDIR on selected node",
           "editable": true,
           "error": false,
@@ -2229,7 +2220,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", job=\"sfs-client\", rpc_nsid=\"$nsid\", instance=\"$node\", method=\"RMDIR\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -2293,7 +2284,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "RPC latency distribution for RENAME on selected node",
           "editable": true,
           "error": false,
@@ -2389,7 +2380,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", job=\"sfs-client\", rpc_nsid=\"$nsid\", instance=\"$node\", method=\"RENAME\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -2453,7 +2444,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "RPC latency distribution for LINK on selected node",
           "editable": true,
           "error": false,
@@ -2549,7 +2540,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", job=\"sfs-client\", rpc_nsid=\"$nsid\", instance=\"$node\", method=\"LINK\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -2613,7 +2604,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "RPC latency distribution for SYMLINK on selected node",
           "editable": true,
           "error": false,
@@ -2709,7 +2700,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", job=\"sfs-client\", rpc_nsid=\"$nsid\", instance=\"$node\", method=\"SYMLINK\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -2773,7 +2764,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "RPC latency distribution for READLINK on selected node",
           "editable": true,
           "error": false,
@@ -2869,7 +2860,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", job=\"sfs-client\", rpc_nsid=\"$nsid\", instance=\"$node\", method=\"READLINK\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -2933,7 +2924,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "RPC latency distribution for SETATTR on selected node",
           "editable": true,
           "error": false,
@@ -3029,7 +3020,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", job=\"sfs-client\", rpc_nsid=\"$nsid\", instance=\"$node\", method=\"SETATTR\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -3093,7 +3084,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "RPC latency distribution for COMMIT on selected node",
           "editable": true,
           "error": false,
@@ -3189,7 +3180,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", job=\"sfs-client\", rpc_nsid=\"$nsid\", instance=\"$node\", method=\"COMMIT\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -3253,7 +3244,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "RPC latency distribution for FSYNC on selected node",
           "editable": true,
           "error": false,
@@ -3349,7 +3340,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", job=\"sfs-client\", rpc_nsid=\"$nsid\", instance=\"$node\", method=\"FSYNC\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -3413,7 +3404,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "RPC latency distribution for READDIR on selected node",
           "editable": true,
           "error": false,
@@ -3509,7 +3500,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", job=\"sfs-client\", rpc_nsid=\"$nsid\", instance=\"$node\", method=\"READDIR\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -3573,7 +3564,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "RPC latency distribution for RECALL on selected node",
           "editable": true,
           "error": false,
@@ -3669,7 +3660,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", job=\"sfs-client\", rpc_nsid=\"$nsid\", instance=\"$node\", method=\"RECALL\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -3733,7 +3724,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "RPC latency distribution for RELEASE on selected node",
           "editable": true,
           "error": false,
@@ -3829,7 +3820,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", job=\"sfs-client\", rpc_nsid=\"$nsid\", instance=\"$node\", method=\"RELEASE\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -3893,7 +3884,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "RPC latency distribution for TRUNCATE on selected node",
           "editable": true,
           "error": false,
@@ -3989,7 +3980,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_rpc_response_duration_bucket{cluster=\"$cluster\", job=\"sfs-client\", rpc_nsid=\"$nsid\", instance=\"$node\", method=\"TRUNCATE\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -4181,7 +4172,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "READ RPC request size distribution for selected node",
           "editable": true,
           "error": false,
@@ -4277,7 +4268,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_rpc_request_size_bytes_bucket{cluster=\"$cluster\", rpc_nsid=\"$nsid\", instance=\"$node\", method=\"READ\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -4341,7 +4332,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "WRITE RPC request size distribution for selected node",
           "editable": true,
           "error": false,
@@ -4437,7 +4428,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(sfs_rpc_request_size_bytes_bucket{cluster=\"$cluster\", rpc_nsid=\"$nsid\", instance=\"$node\", method=\"WRITE\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -4517,7 +4508,7 @@
           "text": null,
           "value": null
         },
-        "datasource": "${DS_TEST-CLUSTER}",
+        "datasource": "",
         "hide": 2,
         "includeAll": false,
         "label": "DS_VICTORIAMETRICS",
@@ -4544,7 +4535,7 @@
           "text": null,
           "value": null
         },
-        "datasource": "${DS_TEST-CLUSTER}",
+        "datasource": "${DS_VICTORIAMETRICS}",
         "hide": 0,
         "includeAll": false,
         "label": "cluster",
@@ -4571,7 +4562,7 @@
           "text": null,
           "value": null
         },
-        "datasource": "${DS_TEST-CLUSTER}",
+        "datasource": "${DS_VICTORIAMETRICS}",
         "hide": 0,
         "includeAll": false,
         "label": "nsid",
@@ -4598,7 +4589,7 @@
           "text": null,
           "value": null
         },
-        "datasource": "${DS_TEST-CLUSTER}",
+        "datasource": "${DS_VICTORIAMETRICS}",
         "hide": 0,
         "includeAll": false,
         "label": "node",
