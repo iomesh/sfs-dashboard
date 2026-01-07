@@ -1,14 +1,5 @@
 {
-  "__inputs": [
-    {
-      "description": "",
-      "label": "test-cluster",
-      "name": "DS_TEST-CLUSTER",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus",
-      "type": "datasource"
-    }
-  ],
+  "__inputs": [],
   "annotations": {
     "list": []
   },
@@ -52,7 +43,7 @@
       "panels": [
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -134,7 +125,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum( rate( nfs_requests_by_export_total {cluster=\"$cluster\",export=\"$export\"} [$__rate_interval] ) ) by (operation)",
               "format": "time_series",
               "hide": false,
@@ -158,7 +149,7 @@
         },
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -240,7 +231,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "(sum( rate( nfs_latency_ms_by_export_sum {cluster=\"$cluster\",export=\"$export\"} [$__rate_interval] ) ) by (operation) / sum( rate( nfs_latency_ms_by_export_count {cluster=\"$cluster\",export=\"$export\"} [$__rate_interval] ) ) by (operation))",
               "format": "time_series",
               "hide": false,
@@ -264,7 +255,7 @@
         },
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -346,7 +337,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum( rate( nfs_bytes_received_by_export_total {cluster=\"$cluster\",export=\"$export\"} [$__rate_interval] ) )",
               "format": "time_series",
               "hide": false,
@@ -361,7 +352,7 @@
               "target": ""
             },
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum( rate( nfs_bytes_sent_by_export_total {cluster=\"$cluster\",export=\"$export\"} [$__rate_interval] ) )",
               "format": "time_series",
               "hide": false,
@@ -385,7 +376,7 @@
         },
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -467,7 +458,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "avg( (rate( nfs_latency_ms_by_export_sum {cluster=\"$cluster\",export=\"$export\"} [$__rate_interval] ) / rate( nfs_latency_ms_by_export_count {cluster=\"$cluster\",export=\"$export\"} [$__rate_interval] )) ) by (operation)",
               "format": "time_series",
               "hide": false,
@@ -533,7 +524,7 @@
       "panels": [
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -615,7 +606,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "histogram_quantile(0.01, sum by (operation, le) (rate(nfs_latency_ms_by_export_bucket{cluster=\"$cluster\", export=\"$export\"}[$__rate_interval])))",
               "format": "time_series",
               "hide": false,
@@ -639,7 +630,7 @@
         },
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -721,7 +712,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "histogram_quantile(0.9, sum by (operation, le) (rate(nfs_latency_ms_by_export_bucket{cluster=\"$cluster\", export=\"$export\"}[$__rate_interval])))",
               "format": "time_series",
               "hide": false,
@@ -745,7 +736,7 @@
         },
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -827,7 +818,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "histogram_quantile(0.5, sum by (operation, le) (rate(nfs_latency_ms_by_export_bucket{cluster=\"$cluster\", export=\"$export\"}[$__rate_interval])))",
               "format": "time_series",
               "hide": false,
@@ -851,7 +842,7 @@
         },
         {
           "cacheTimeout": null,
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": null,
           "editable": true,
           "error": false,
@@ -933,7 +924,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "histogram_quantile(0.95, sum by (operation, le) (rate(nfs_latency_ms_by_export_bucket{cluster=\"$cluster\", export=\"$export\"}[$__rate_interval])))",
               "format": "time_series",
               "hide": false,
@@ -1013,7 +1004,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "NFS read latency distribution for export $export",
           "editable": true,
           "error": false,
@@ -1109,7 +1100,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(nfs_latency_ms_by_export_bucket{cluster=\"$cluster\", export=\"$export\", operation=\"read\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -1173,7 +1164,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "NFS write latency distribution for export $export",
           "editable": true,
           "error": false,
@@ -1269,7 +1260,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(nfs_latency_ms_by_export_bucket{cluster=\"$cluster\", export=\"$export\", operation=\"write\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -1333,7 +1324,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "NFS getattr latency distribution for export $export",
           "editable": true,
           "error": false,
@@ -1429,7 +1420,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(nfs_latency_ms_by_export_bucket{cluster=\"$cluster\", export=\"$export\", operation=\"getattr\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -1493,7 +1484,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "NFS setattr latency distribution for export $export",
           "editable": true,
           "error": false,
@@ -1589,7 +1580,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(nfs_latency_ms_by_export_bucket{cluster=\"$cluster\", export=\"$export\", operation=\"setattr\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -1653,7 +1644,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "NFS access latency distribution for export $export",
           "editable": true,
           "error": false,
@@ -1749,7 +1740,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(nfs_latency_ms_by_export_bucket{cluster=\"$cluster\", export=\"$export\", operation=\"access\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -1813,7 +1804,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "NFS lookup latency distribution for export $export",
           "editable": true,
           "error": false,
@@ -1909,7 +1900,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(nfs_latency_ms_by_export_bucket{cluster=\"$cluster\", export=\"$export\", operation=\"lookup\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -1973,7 +1964,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "NFS create latency distribution for export $export",
           "editable": true,
           "error": false,
@@ -2069,7 +2060,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(nfs_latency_ms_by_export_bucket{cluster=\"$cluster\", export=\"$export\", operation=\"create\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -2133,7 +2124,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "NFS remove latency distribution for export $export",
           "editable": true,
           "error": false,
@@ -2229,7 +2220,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(nfs_latency_ms_by_export_bucket{cluster=\"$cluster\", export=\"$export\", operation=\"remove\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -2293,7 +2284,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "NFS rename latency distribution for export $export",
           "editable": true,
           "error": false,
@@ -2389,7 +2380,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(nfs_latency_ms_by_export_bucket{cluster=\"$cluster\", export=\"$export\", operation=\"rename\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -2453,7 +2444,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "NFS commit latency distribution for export $export",
           "editable": true,
           "error": false,
@@ -2549,7 +2540,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(nfs_latency_ms_by_export_bucket{cluster=\"$cluster\", export=\"$export\", operation=\"commit\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -2613,7 +2604,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "NFS open latency distribution for export $export",
           "editable": true,
           "error": false,
@@ -2709,7 +2700,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(nfs_latency_ms_by_export_bucket{cluster=\"$cluster\", export=\"$export\", operation=\"open\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -2773,7 +2764,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "NFS close latency distribution for export $export",
           "editable": true,
           "error": false,
@@ -2869,7 +2860,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(nfs_latency_ms_by_export_bucket{cluster=\"$cluster\", export=\"$export\", operation=\"close\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -2933,7 +2924,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "NFS readdir latency distribution for export $export",
           "editable": true,
           "error": false,
@@ -3029,7 +3020,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(nfs_latency_ms_by_export_bucket{cluster=\"$cluster\", export=\"$export\", operation=\"readdir\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -3221,7 +3212,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "NFS Read request size distribution for export $export",
           "editable": true,
           "error": false,
@@ -3317,7 +3308,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(nfs_request_size_by_export_bytes_bucket{operation=\"read\", cluster=\"$cluster\", export=\"$export\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -3381,7 +3372,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "NFS Write request size distribution for export $export",
           "editable": true,
           "error": false,
@@ -3477,7 +3468,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(nfs_request_size_by_export_bytes_bucket{operation=\"write\", cluster=\"$cluster\", export=\"$export\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -3541,7 +3532,7 @@
             "mode": "spectrum"
           },
           "dataFormat": "tsbuckets",
-          "datasource": "${DS_TEST-CLUSTER}",
+          "datasource": "${DS_VICTORIAMETRICS}",
           "description": "NFS Read response size distribution for export $export",
           "editable": true,
           "error": false,
@@ -3637,7 +3628,7 @@
           "span": null,
           "targets": [
             {
-              "datasource": "${DS_TEST-CLUSTER}",
+              "datasource": "${DS_VICTORIAMETRICS}",
               "expr": "sum without(instance, sfs_hostname) (\n            rate(nfs_response_size_by_export_bytes_bucket{operation=\"read\", cluster=\"$cluster\", export=\"$export\"}[$__rate_interval])\n        )",
               "format": "heatmap",
               "hide": false,
@@ -3717,7 +3708,7 @@
           "text": null,
           "value": null
         },
-        "datasource": "${DS_TEST-CLUSTER}",
+        "datasource": "",
         "hide": 2,
         "includeAll": false,
         "label": "DS_VICTORIAMETRICS",
@@ -3744,7 +3735,7 @@
           "text": null,
           "value": null
         },
-        "datasource": "${DS_TEST-CLUSTER}",
+        "datasource": "${DS_VICTORIAMETRICS}",
         "hide": 0,
         "includeAll": false,
         "label": "cluster",
@@ -3771,7 +3762,7 @@
           "text": null,
           "value": null
         },
-        "datasource": "${DS_TEST-CLUSTER}",
+        "datasource": "${DS_VICTORIAMETRICS}",
         "hide": 0,
         "includeAll": false,
         "label": "export",
